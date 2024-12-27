@@ -26,3 +26,21 @@ button {
   border: none;
   background-color: transparent;
 }
+
+.leaflet-control-attribution {
+  display: none;
+}
+
+.leaflet-control-zoom {
+  a {
+      border-radius: 50% !important;
+  }
+
+  a:last-child {
+      margin-top: 5px;
+  }
+}
+
+.leaflet-bar {
+  border: none !important;
+}

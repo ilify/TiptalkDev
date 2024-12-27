@@ -3,6 +3,8 @@
   let isRegistered = true;
   let name = "ilies";
 
+  import { MessageCircle } from "lucide-svelte";
+
   export function getRandomColor(username) {
     // Generate a hash code from the username
     let hash = 0;
@@ -21,15 +23,16 @@
 </script>
 
 <nav>
-  <div>
-    <Logo />
-    <a href="/">Listings</a>
-    <a href="/about">Search</a>
-    <a href="/contact">Contact</a>
-  </div>
   {#if isRegistered}
     <div>
+      <Logo />
+      <a href="/">Listings</a>
+      <a href="/about">Messages</a>
+      <a href="/contact">Profile</a>
+    </div>
+    <div>
       <a href="/Post">Déposer une annonce</a>
+
       <profile
         style="background:linear-gradient(45deg,{getRandomColor(
           name
@@ -38,6 +41,12 @@
       >
     </div>
   {:else}
+    <div>
+      <Logo />
+      <a href="/">Listings</a>
+      <a href="/about">Search</a>
+      <a href="/contact">Contact</a>
+    </div>
     <button> Register </button>
   {/if}
 </nav>
@@ -49,7 +58,7 @@
     justify-content: space-between;
     align-items: center;
     /* gap:20px; */
-    /* padding: 0 10%; */
+    padding: 0 5%;
     height: 60px;
   }
 

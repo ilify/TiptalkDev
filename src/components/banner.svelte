@@ -7,7 +7,7 @@
     <p>Explorez un large choix de propriétés, comparez les meilleures options et concrétisez vos projets immobiliers en toute sérénité</p>
     <searchbar >
         <input type="text" placeholder="Rechercher une propriété">
-        <button><Search /></button>
+        <button><Search size={22}/></button>
     </searchbar>
     <tags>
         <p>Rechercher par type de propriété:</p>
@@ -67,7 +67,7 @@
         }
 
         button{
-            background: rgb(70, 170, 128);
+            background: rgb(162, 218, 33);
             color: #fff;
             border: none;
             width: 40px;

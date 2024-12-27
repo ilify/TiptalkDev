@@ -55,6 +55,9 @@
   ];
 </script>
 
+<all>
+
+
 <main>
   <Select placeholder="Pays" data={Pays} />
   <Select placeholder="Type" data={Types} />
@@ -97,13 +100,45 @@
 
   <!-- <button><ListFilter /></button> -->
 </main>
+<results>
+  <p> Results Found</p>
+  <h1>22</h1>
+
+</results>
+</all>
 
 <style>
+  all{
+    display: flex;
+    flex-direction: row;
+    padding: 0 5%;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  results{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: baseline;
+
+
+    h1{
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: Milk;
+    }
+
+    p{
+      opacity: .5;
+    }
+  }
   main {
     margin-top: 20px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    /* justify-content: s; */
     gap: 10px;
     align-items: baseline;
   }

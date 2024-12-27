@@ -4,9 +4,7 @@
 </script>
 
 <footer>
-  <section
-    style="width: 100%;position: relative;;margin-right: 300px;"
-  >
+  <section style="width: 100%;position: relative;;margin-right: 300px;">
     <Logo />
     <p>Transform your Real Estate experience with digital innovation.</p>
     <p
@@ -37,7 +35,7 @@
 
 <style>
   footer {
-    padding: 0 2%;
+    padding: 0 5%;
     display: flex;
     justify-content: space-between;
 
@@ -80,23 +78,6 @@
     h1 {
       font-family: "Milk";
       font-size: 18px;
-    }
-    ul {
-      list-style: "";
-      margin: 0;
-      padding: 0;
-      margin-top: 20px;
-      display: flex;
-      gap: 15px;
-    }
-    ul li a {
-      background: #000 !important;
-      /* padding: 10px; */
-      /* color: rgb(255, 255, 255); */
-      /* margin-right: 15px; */
-      width: fit-content;
-      /* margin-left: -10px; */
-      transition: 0.2s all;
     }
   }
 </style>

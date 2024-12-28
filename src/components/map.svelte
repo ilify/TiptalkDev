@@ -53,14 +53,11 @@
 
 <div bind:this={mapElement} class="map-container">
   <button onclick={changeMode}>◑</button>
-  <!-- <div class="coordinates">
-                Latitude: {lat}, Longitude: {lng}, Zoom: {zoom}
-        </div> -->
 </div>
 
 <style>
   .map-container {
-    height: 400px;
+    height: 100%;
     width: 100%;
     position: relative;
     border-radius: 10px;

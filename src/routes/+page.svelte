@@ -5,6 +5,7 @@
     import Navbar from "../components/navbar.svelte";
     import Homes from "../components/homes.svelte";
     import Footer from "../components/footer.svelte";
+  import Auth from "../components/auth.svelte";
   </script>
   
   <main>
@@ -13,6 +14,7 @@
     <Filter />
     <Homes />
     <Footer />
+    <Auth />
     <slot></slot>
   </main>
   

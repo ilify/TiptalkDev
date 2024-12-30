@@ -1,8 +1,7 @@
 <script>
   import { Plus, Minus, Image, Trash2 } from "lucide-svelte";
-  let mainpicn = 0;
 
-  let pics = [];
+  export var { images = $bindable() } = $props();
 
   function addpicmain() {
     const input = document.createElement("input");
@@ -14,7 +13,7 @@
       const files = e.target.files;
       const reader = new FileReader();
       reader.onload = (e) => {
-        mainpicn = e.target.result;
+        images[0] = e.target.result;
       };
       reader.readAsDataURL(files[0]);
     };
@@ -31,7 +30,7 @@
       for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          pics = [...pics, e.target.result];
+          images = [...images, e.target.result];
         };
         reader.readAsDataURL(files[i]);
       }
@@ -39,30 +38,30 @@
   }
 
   function delpic(pic) {
-    pics = pics.filter((p) => p !== pic);
+    images = images.filter((p) => p !== pic);
   }
 </script>
 
-<mainpic on:click={addpicmain}>
-  {#if mainpicn !== 0}
-    <img src={mainpicn} alt="mainpic" />
+<mainpic onclick={addpicmain}>
+  {#if images[0] !== undefined}
+    <img src={images[0]} alt="mainpic" />
   {:else}
     <div>
-      <h1>Add a main Picture</h1>
-      <p>Click here to add a main picture</p>
+      <h1>Ajouter une image principale</h1>
+      <p>Cliquez ici pour ajouter une image principale</p>
     </div>
   {/if}
 </mainpic>
 <div>
   <!-- <input type="file" accept="image/*" multiple /> -->
-  {#each pics as pic}
+  {#each images.slice(1) as pic}
     <pic>
       <img src={pic} alt="pic" />
       <mask></mask>
-      <button del on:click={() => delpic(pic)}><Trash2 color="#fff" /></button>
+      <button del onclick={() => delpic(pic)}><Trash2 color="#fff" /></button>
     </pic>
   {/each}
-  <button on:click={addpic}><Plus color="#d0d0d0" /></button>
+  <button onclick={addpic}><Plus color="#d0d0d0" /></button>
 </div>
 
 <style>
@@ -113,13 +112,15 @@
     margin-top: 10px;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: start;
-    overflow-x: auto;
+    /* overflow-x: auto; */
     gap: 10px;
 
     button {
       /* opacity: 0.5; */
-      height: 100px;
+      width: calc((100% - 30px) / 4);
+      /* height: 100px; */
       aspect-ratio: 16/9;
 
       border: 2px dashed #dfdfdf;
@@ -129,8 +130,8 @@
     }
 
     pic {
-      min-width: 177.77px;
-      height: 100px;
+      width: calc((100% - 30px) / 4);
+      /* height: 100px; */
       aspect-ratio: 16/9;
       background: #f4f4f4;
       border-radius: 10px;
@@ -143,13 +144,17 @@
         object-fit: cover;
       }
 
-      mask{
+      mask {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(45deg,rgba(255, 255, 255, 0.0) 50%, rgba(255, 0, 0, 1));
+        background: linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0) 50%,
+          rgba(255, 0, 0, 1)
+        );
         /* display: none; */
         opacity: 0;
         transition: 0.3s ease;

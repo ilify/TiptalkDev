@@ -27,11 +27,11 @@
     <div>
       <Logo />
       <a href="/">Listings</a>
-      <a href="/about">Messages</a>
-      <a href="/contact">Profile</a>
+      <!-- <a href="/about">Messages</a> -->
+      <!-- <a href="/contact">Profile</a> -->
     </div>
     <div>
-      <a href="/Post">Déposer une annonce</a>
+      <a href="/AddHome">Déposer une annonce</a>
 
       <profile
         style="background:linear-gradient(45deg,{getRandomColor(

@@ -5,6 +5,7 @@
   import Inputint from "../../components/inputint.svelte";
   import Imageinput from "../../components/Imageinput.svelte";
   import Inputmap from "../../components/inputmap.svelte";
+  import Checkbox from "../../components/checkbox.svelte";
 
   let Types = [
     { value: "Appartement", label: "Appartement" },
@@ -24,18 +25,39 @@
     { value: "m²", label: "m²" },
     { value: "ft²", label: "ft²" },
   ];
+
+  let Data = $state({
+    images: [], //
+    type: "", //
+    price: "", //
+    currency: "", //
+    description: "", //
+    address: "", //
+    bedroom: 0, //
+    bathroom: 0, //
+    year: 2000, //
+    surface: 0, //
+    unitsurface: "", //
+    lot: 0, //
+    unitlot: "", //
+    furnished: false, //
+    pool: false, //
+    garage: false, //
+    outdoor: false, //
+    camera: false, //
+    heating: false, //
+  });
 </script>
 
 <main>
   <Navbar />
   <article>
     <h1>Déposer une annonce</h1>
-
     <step>
       <images>
         <h2>Images et Aperçu</h2>
         <p>Ajoutez des images de votre bien et prévisualisez-les ici</p>
-        <Imageinput />
+        <Imageinput bind:images={Data.images} />
       </images>
       <info>
         <h2>Informations générales</h2>
@@ -43,13 +65,17 @@
         <br />
         <div>
           <p>Type</p>
-          <Select placeholder="Type" data={Types} />
+          <Select placeholder="Type" data={Types} bind:selected={Data.type} />
         </div>
         <div style="gap: .3rem;">
           <p>Prix</p>
           <div style="margin-top: 0;width:100%">
-            <input placeholder="Prix de l'annonce" />
-            <Select placeholder="TND" data={Currency} />
+            <input placeholder="Prix de l'annonce" bind:value={Data.price} />
+            <Select
+              placeholder="TND"
+              data={Currency}
+              bind:selected={Data.currency}
+            />
           </div>
         </div>
         <div>
@@ -58,46 +84,93 @@
             id="description"
             name="description"
             placeholder="Description de l'annonce"
+            bind:value={Data.description}
           ></textarea>
         </div>
 
+        <div>
+          <p>Adresse</p>
+          <Inputmap bind:value={Data.address} />
+        </div>
+
+        <br />
+        <h2>Caractéristiques</h2>
+        <p>Indiquez les caractéristiques de votre bien</p>
+        <br />
+        <div>
+          <p>Nombre de chambres</p>
+          <Inputint bind:count={Data.bedroom} />
+        </div>
+
+        <div>
+          <p>Nombre de salles de bain</p>
+          <Inputint bind:count={Data.bathroom} />
+        </div>
+
+        <div>
+          <p>Année de construction</p>
+          <Inputint bind:count={Data.year} />
+        </div>
+
         <div style="gap: .3rem;">
-          <p>Surface</p>
+          <p>Surface Terrain</p>
           <div style="margin-top: 0;width:100%">
-            <input placeholder="Surface de l'annance" />
-            <Select placeholder="m²" data={Units} />
+            <input placeholder="Surface totale" bind:value={Data.surface} />
+            <Select
+              placeholder="m²"
+              data={Units}
+              bind:selected={Data.unitsurface}
+            />
+          </div>
+        </div>
+
+        <div style="gap: .3rem;">
+          <p>Surface du Lot</p>
+          <div style="margin-top: 0;width:100%">
+            <input placeholder="Surface de lot" bind:value={Data.lot} />
+            <Select
+              placeholder="m²"
+              data={Units}
+              bind:selected={Data.unitlot}
+            />
           </div>
         </div>
 
         <div>
-          <p>Address</p>
-          <Inputmap />
+          <p>Meublé</p>
+          <Checkbox bind:isChecked={Data.furnished} />
         </div>
 
         <div>
-          <p>Nombre de chambre</p>
-          <Inputint />
+          <p>Piscine</p>
+          <Checkbox bind:isChecked={Data.pool} />
         </div>
-
         <div>
-          <p>Nombre de salle de bain</p>
-          <Inputint />
+          <p>Garage</p>
+          <Checkbox bind:isChecked={Data.garage} />
         </div>
-
         <div>
-          <p>Carecteristique</p>
-          <Select placeholder="Type" data={Currency} />
+          <p>Espaces extérieurs</p>
+          <Checkbox bind:isChecked={Data.outdoor} />
+        </div>
+        <div>
+          <p>Caméra de sécurité</p>
+          <Checkbox bind:isChecked={Data.camera} />
+        </div>
+        <div>
+          <p>Chauffage/Climatisation</p>
+          <Checkbox bind:isChecked={Data.heating} />
         </div>
       </info>
     </step>
     <div>
       <law>
         <p>
-          By clicking "Continue", I acknowledge <br /> I have read and understand
-          the Privacy Notice.
+          En cliquant sur "Continuer", je reconnais <br /> avoir lu et compris l'Avis
+          de Confidentialité.
         </p>
       </law>
-      <button>Continue</button>
+      <button>Continuer</button>
     </div>
   </article>
 </main>
@@ -107,6 +180,7 @@
     display: flex;
     flex-direction: column;
     padding: 1% 2%;
+padding-bottom: 5%;
   }
 
   article {
@@ -162,7 +236,7 @@
     textarea,
     input {
       width: 100%;
-      padding: 0.5em .7em;
+      padding: 0.5em 0.7em;
       border-radius: 10px;
       border: 1px solid #e4e4e7;
     }
@@ -177,8 +251,6 @@
       flex-direction: column;
 
       overflow-y: auto;
-
-      
     }
   }
   div {

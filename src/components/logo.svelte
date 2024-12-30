@@ -1,6 +1,6 @@
 <div>
   <h1>Tip</h1>
-  <h2>Talk</h2>
+  <!-- <h2>Talk</h2> -->
 </div>
 
 <style>

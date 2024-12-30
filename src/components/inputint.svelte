@@ -1,7 +1,7 @@
 <script>
   import { Plus, Minus } from "lucide-svelte";
 
-  let count = 0;
+  export var { count = $bindable() } = $props();
 
   function increment() {
     count += 1;
@@ -13,11 +13,11 @@
 </script>
 
 <div class="container">
-  <button class="button" on:click={decrement} disabled={count <= 0}
+  <button class="button" onclick={decrement} disabled={count <= 0}
     ><Minus /></button
   >
   <p>{count}</p>
-  <button class="button" on:click={increment}><Plus /></button>
+  <button class="button" onclick={increment}><Plus /></button>
 </div>
 
 <style>
@@ -45,7 +45,7 @@
     font-size: 16px;
     border: 1px solid #e4e4e7;
   }
-  
+
   .button:disabled {
     border: 1px solid #e4e4e7;
     background-color: #ffffff;

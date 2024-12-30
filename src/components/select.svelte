@@ -1,7 +1,6 @@
 <script>
   import * as Select from "$lib/components/ui/select";
-  export var { placeholder, data } = $props();
-  // export let data;
+  export var { placeholder, data, selected = $bindable() } = $props();
 </script>
 
 <Select.Root>
@@ -14,7 +13,11 @@
   <Select.Content>
     <Select.Group class="h-fit max-h-[300px] overflow-y-auto">
       {#each data as r}
-        <Select.Item value={r.value} label={r.label}>{r.label}</Select.Item>
+        <Select.Item
+          value={r.value}
+          label={r.label}
+          on:click={(selected = r.value)}>{r.label}</Select.Item
+        >
       {/each}
     </Select.Group>
   </Select.Content>

@@ -1,8 +1,7 @@
 <script>
   import { Validators } from "$lib/validator/valid";
-  export var { name, type, placeholder } = $props();
+  export var { name, type, placeholder, value = $bindable() } = $props();
   let validator = Validators[type];
-  let value = $state("");
   let empty = $derived(value.length === 0);
   let valid = $derived(validator(value));
 </script>

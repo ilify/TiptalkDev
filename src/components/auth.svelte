@@ -3,6 +3,27 @@
   import Logo from "./logo.svelte";
 
   let pos = 0;
+  let isLogin = true;
+  let Data = {
+    email: "",
+    username: "",
+    password: "",
+  };
+
+  let uiData = [
+    {
+      h1: "Bon retour !",
+      p: "Entrez vos identifiants pour vous connecter",
+      username: false,
+      button: "Se connecter",
+    },
+    {
+      h1: "Créer un compte !",
+      p: "Entrez vos informations pour vous inscrire",
+      username: true,
+      button: "S'inscrire",
+    },
+  ];
 
   function next() {
     pos++;
@@ -12,38 +33,69 @@
     pos--;
     if (pos < 0) pos = 0;
   }
+
+  function toLogin() {
+    isLogin = true;
+    next();
+  }
+
+  function toSignup() {
+    isLogin = false;
+    next();
+  }
 </script>
 
 <main>
   <panel>
     <content style="--pos: {pos}">
       <welcome>
-        <h1>Welcome to TipTalk !</h1>
-        <p>Choose an option to continue</p>
+        <h1>Bienvenue sur TipTalk !</h1>
+        <p>Choisissez une option pour continuer</p>
         <button main
           ><img
             src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
             alt="google"
-          /> Continue with Google</button
+          /> Continuer avec Google</button
         >
-        <button onclick={next()}>Continue with Email</button>
-        <po>OR</po>
-        <button>Login to your Account</button>
+        <button onclick={toSignup}>Continuer avec Email</button>
+        <po>OU</po>
+        <button onclick={toLogin}>Se connecter à votre compte</button>
         <law
-          >By Choosing a sign in method, I confirm that I have read and
-          understood the <a href="/">Privacy Policy</a> as well as the
-          <a href="/">Terms of service</a></law
+          >En choisissant une méthode de connexion, je confirme avoir lu et
+          compris la <a href="/">Politique de confidentialité</a> ainsi que les
+          <a href="/">Conditions d'utilisation</a></law
         >
       </welcome>
       <inputs>
-        <back onclick={back()}>← Back</back>
-        <h1>Title Here of the Actio !</h1>
-        <p>Subtitle of the action</p>
-        <Input name="" placeholder="Email" type="email" />
-        <Input name="" placeholder="Username" type="username" />
-        <Input name="" placeholder="Password" type="password" />
+        <back onclick={back}>← Back</back>
+        <h1>{uiData[isLogin ? 0 : 1].h1}</h1>
+        <p>{uiData[isLogin ? 0 : 1].p}</p>
+        <Input
+          name=""
+          placeholder="Email"
+          type="email"
+          bind:value={Data.email}
+        />
+        <div
+          style="display: {uiData[isLogin ? 0 : 1].username ? 'block' : 'none'}"
+        >
+          <Input
+            name=""
+            placeholder="Nom d'utilisateur"
+            type="username"
+            bind:value={Data.username}
+          />
+        </div>
+        <Input
+          name=""
+          placeholder="Mot de passe"
+          type="password"
+          bind:value={Data.password}
+        />
 
-        <button>Sign Up</button>
+        <button style="margin-top: 10px;"
+          >{uiData[isLogin ? 0 : 1].button}</button
+        >
         <law>
           By clicking Sign Up, you agree to our <a href="/">Terms of Service</a>
           and <a href="/">Privacy Policy</a>
@@ -97,11 +149,11 @@
       min-width: 400px;
       height: 50%;
       transition: 0.5s all;
-      transform: translateX(calc(var(--pos) * -100%));
+      transform: translateX(calc(var(--pos) * -101%));
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 0.7rem;
+      gap: 0.6rem;
       opacity: calc(1 + var(--pos));
     }
   }

@@ -2,12 +2,16 @@
   import { Validators } from "$lib/validator/valid";
   export var { name, type, placeholder, value = $bindable() } = $props();
   let validator = Validators[type];
-  let empty = $derived(value.length === 0);
-  let valid = $derived(validator(value));
+  let empty = $derived(input.length === 0);
+  let valid = $derived(validator(input));
+  let input = $state("");
+  $effect(() => {
+    value = input;
+  });
 </script>
 
 <ainput {name} {valid}>
-  <input {type} bind:value {empty} />
+  <input {type} bind:value={input} {empty} />
   <p>{placeholder}</p>
 </ainput>
 

@@ -1,7 +1,6 @@
-:root{
+:root {
   /* color-scheme: light dark; */
 }
-
 
 * {
   margin: 0;
@@ -9,7 +8,7 @@
   box-sizing: border-box;
   font-family: "Figtree", sans-serif;
 }
-html{
+html {
   height: 100%;
   /* background: red; */
   width: 100%;
@@ -33,14 +32,32 @@ button {
 
 .leaflet-control-zoom {
   a {
-      border-radius: 50% !important;
+    border-radius: 50% !important;
   }
 
   a:last-child {
-      margin-top: 5px;
+    margin-top: 5px;
   }
 }
 
 .leaflet-bar {
   border: none !important;
+}
+
+progress {
+  width: 50%;
+  height: 12px;
+  border-radius: 50px;
+  background: #00000057;
+  margin-top: 1rem;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #00000013;
+  border-radius: 50px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #000000;
+  border-radius: 50px;
 }

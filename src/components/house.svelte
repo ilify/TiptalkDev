@@ -1,6 +1,15 @@
 <script>
-  import { Map, Bed, Bath } from "lucide-svelte";
+  import { Map, Bed, Bath, Car, Cctv, Sofa } from "lucide-svelte";
+  import { onMount } from "svelte";
   export let house;
+  let town = "not";
+  let street = "";
+
+  onMount(() => {
+    const addressParts = house.address.address.split(",");
+    town = addressParts.slice(5).join(", ");
+    street = addressParts.slice(0, -5).join(", ");
+  });
 
   function formatPrice(price) {
     // Convert the price to a number, in case it's a string
@@ -10,30 +19,43 @@
     // Format the price with thousands separators and no decimals
     return new Intl.NumberFormat("fr-FR", {
       style: "currency",
-      currency: "TND",
+      currency: house.currency || "TND",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(numericPrice);
   }
 </script>
 
-<main
-  style="background-image:linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1)), url({house.img});background-size: cover;"
+<a
+  href="/Home/{house.ID}"
+  style="background-image:linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1)), url(
+  {house.images[0]});background-size: cover;"
 >
   <h1>{formatPrice(house.price)}</h1>
   <doc>
     <badges>
-      <badge>{house.roomnbr} <Bed size={16} /></badge>
-      <badge>{house.bathnbr} <Bath size={16} /></badge>
-      <badge>{house.surface} m²</badge>
+      {#if house.garage}
+        <badge><Car /></badge>
+      {/if}
+      {#if house.camera}
+        <badge><Cctv /></badge>
+      {/if}
+      {#if house.furnished}
+        <badge><Sofa /></badge>
+      {/if}
+    </badges>
+    <badges>
+      <badge>{house.bedroom} <Bed size={16} /></badge>
+      <badge>{house.bathroom} <Bath size={16} /></badge>
+      <badge>{house.surface} m² </badge>
     </badges>
   </doc>
-  <date>{house.date}</date>
+  <date>{new Date(house.PostDate).toLocaleDateString()}</date>
   <op>
-    <location>{house.location} <Map size={18} /></location>
-    <h2>{house.address}</h2>
+    <location>{town} <Map size={18} /></location>
+    <h2>{street}</h2>
   </op>
-</main>
+</a>
 
 <style>
   doc {
@@ -59,7 +81,7 @@
       }
     }
   }
-  main {
+  a {
     /* background-color: #f4f4f4; */
     /* filter: brightness(.9); */
     padding: 1rem;
@@ -80,6 +102,10 @@
       font-weight: 400;
       color: #fff;
       font-family: Milk;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 20vw;
     }
     h1 {
       font-size: 2rem;

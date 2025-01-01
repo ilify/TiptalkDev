@@ -6,7 +6,10 @@
   import Imageinput from "../../components/Imageinput.svelte";
   import Inputmap from "../../components/inputmap.svelte";
   import Checkbox from "../../components/checkbox.svelte";
+  import { fetchBackend } from "$lib/fetch";
+  import { LoaderCircle } from "lucide-svelte";
 
+  let loading = $state(false);
   let Types = [
     { value: "Appartement", label: "Appartement" },
     { value: "Maison", label: "Maison" },
@@ -47,6 +50,22 @@
     camera: false, //
     heating: false, //
   });
+
+  function Send() {
+    loading = true;
+    fetchBackend("/house/post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Data),
+    }).then((res) => {
+      if (res.ok) {
+        // console.log("Success");
+        loading = false;
+      }
+    });
+  }
 </script>
 
 <main>
@@ -170,7 +189,13 @@
           de Confidentialité.
         </p>
       </law>
-      <button>Continuer</button>
+      <button onclick={Send} disabled={loading}>
+        {#if loading}
+          <LoaderCircle />
+        {:else}
+          Continuer
+        {/if}
+      </button>
     </div>
   </article>
 </main>
@@ -180,7 +205,7 @@
     display: flex;
     flex-direction: column;
     padding: 1% 2%;
-padding-bottom: 5%;
+    padding-bottom: 5%;
   }
 
   article {

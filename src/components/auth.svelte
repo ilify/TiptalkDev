@@ -1,9 +1,15 @@
 <script>
+  import { fetchBackend } from "$lib/fetch";
   import Input from "./input.svelte";
   import Logo from "./logo.svelte";
 
-  let pos = 0;
-  let isLogin = true;
+  export var {
+    isAuthShowing = $bindable(),
+    isRegistered = $bindable(),
+    name = $bindable(),
+  } = $props();
+  let pos = $state(0);
+  let isLogin = $state(true);
   let Data = {
     email: "",
     username: "",
@@ -43,10 +49,39 @@
     isLogin = false;
     next();
   }
+
+  function submit() {
+    fetchBackend("/auth" + (isLogin ? "/login" : "/register"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Data),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json(); // Proceed to parse the response body if status is 200
+        } else {
+          throw new Error(`HTTP error! Status: ${res.status}`); // Handle non-200 status codes
+        }
+      })
+      .then((data) => {
+        console.log("Success:", data);
+        name = data.Username;
+        isRegistered = true;
+        isAuthShowing = false;
+      })
+      .catch((err) => {
+        console.error("Error:", err); // Handle errors from any part of the chain
+      });
+  }
 </script>
 
-<main>
-  <panel>
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<main onclick={() => (isAuthShowing = false)}>
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <panel onclick={(e) => e.stopPropagation()}>
     <content style="--pos: {pos}">
       <welcome>
         <h1>Bienvenue sur TipTalk !</h1>
@@ -93,7 +128,7 @@
           bind:value={Data.password}
         />
 
-        <button style="margin-top: 10px;"
+        <button style="margin-top: 10px;" onclick={submit}
           >{uiData[isLogin ? 0 : 1].button}</button
         >
         <law>

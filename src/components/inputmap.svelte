@@ -90,7 +90,7 @@
 
 {#if address != null}
   <article>
-    <p>{address}</p>
+    <p style="width:50%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{address}</p>
     <button onclick={openMap}>Change</button>
   </article>
 {:else}
@@ -127,7 +127,7 @@
     flex-direction: row;
     gap: 1rem;
     align-items: center;
-    justify-content: space-between;
+    justify-content: end;
   }
   bg {
     z-index: 100;

@@ -56,59 +56,62 @@
 </script>
 
 <all>
+  <main>
+    <Select placeholder="Pays" data={Pays} />
+    <Select placeholder="Type" data={Types} />
+    <Select placeholder="Location" data={Region} />
+    <Select placeholder="Nombre de pièces" data={Roomnbr} />
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild let:builder>
+        <Button
+          builders={[builder]}
+          variant="outline"
+          style="border-radius: 10px; border:1px solid #e4e4e7;color:#5d6e86"
+          >Prix</Button
+        >
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content
+        style="transform: translateY(10%);border-radius: 10px;"
+      >
+        <div>
+          <info>
+            <p>Minimum: {price[0]}</p>
+            <p>Maximum: {price[1]}</p>
+          </info>
 
+          <Slider bind:value={price} max={1000000} min={10000} step={1000} />
+        </div>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild let:builder>
+        <Button
+          builders={[builder]}
+          variant="outline"
+          style="border-radius: 10px; border:1px solid #e4e4e7;color:#5d6e86"
+          >Surface</Button
+        >
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content
+        style="transform: translateY(10%);border-radius: 10px;"
+      >
+        <div>
+          <info>
+            <p>Minimum: {surface[0]}</p>
+            <p>Maximum: {surface[1]}</p>
+          </info>
 
-<main>
-  <Select placeholder="Pays" data={Pays} />
-  <Select placeholder="Type" data={Types} />
-  <Select placeholder="Location" data={Region} />
-  <Select placeholder="Nombre de pièces" data={Roomnbr} />
-  <DropdownMenu.Root >
-    <DropdownMenu.Trigger asChild let:builder>
-      <Button builders={[builder]} variant="outline" style="border-radius: 10px; border:1px solid #e4e4e7;color:#5d6e86">Prix</Button>
-    </DropdownMenu.Trigger>
-    <DropdownMenu.Content
-      style="transform: translateY(10%);border-radius: 10px;"
-    >
-      <div>
-        <info>
-          <p>Minimum: {price[0]}</p>
-          <p>Maximum: {price[1]}</p>
-        </info>
+          <Slider bind:value={surface} max={2000} min={30} step={10} />
+        </div>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
 
-        <Slider bind:value={price} max={1000000} min={10000} step={1000} />
-      </div>
-    </DropdownMenu.Content>
-  </DropdownMenu.Root>
-  <DropdownMenu.Root >
-    <DropdownMenu.Trigger asChild let:builder >
-      <Button builders={[builder]} variant="outline" style="border-radius: 10px; border:1px solid #e4e4e7;color:#5d6e86">Surface</Button>
-    </DropdownMenu.Trigger>
-    <DropdownMenu.Content
-      style="transform: translateY(10%);border-radius: 10px;"
-    >
-      <div>
-        <info>
-          <p>Minimum: {surface[0]}</p>
-          <p>Maximum: {surface[1]}</p>
-        </info>
-
-        <Slider bind:value={surface} max={2000} min={30} step={10} />
-      </div>
-    </DropdownMenu.Content>
-  </DropdownMenu.Root>
-
-  <!-- <button><ListFilter /></button> -->
-</main>
-<results>
-  <p> Results Found</p>
-  <h1>22</h1>
-
-</results>
+    <!-- <button><ListFilter /></button> -->
+  </main>
 </all>
 
 <style>
-  all{
+  all {
     display: flex;
     flex-direction: row;
     padding: 0 5%;
@@ -117,23 +120,6 @@
     gap: 20px;
   }
 
-  results{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: baseline;
-
-
-    h1{
-      font-size: 2rem;
-      font-weight: 700;
-      font-family: Milk;
-    }
-
-    p{
-      opacity: .5;
-    }
-  }
   main {
     margin-top: 20px;
     display: flex;
@@ -157,5 +143,4 @@
     justify-content: space-between;
     gap: 10px;
   }
-
 </style>

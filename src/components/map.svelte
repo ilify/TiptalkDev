@@ -5,9 +5,11 @@
   let map;
   let marker;
 
+  let { lat, lng } = $props();
+
   // Reactive variables for coordinates and zoom level
-  let lat = 37.266915;
-  let lng = 9.883565;
+  // let lat = 37.266915;
+  // let lng = 9.883565;
   let zoom = 15;
 
   let minZoom = 5;
@@ -73,8 +75,8 @@
       padding: 5px;
       border-radius: 4px;
       width: 30px;
-        height: 30px;
-        border-radius: 50%;
+      height: 30px;
+      border-radius: 50%;
       z-index: 1000;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }

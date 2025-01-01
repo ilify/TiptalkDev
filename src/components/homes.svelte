@@ -1,50 +1,31 @@
 <script>
+  import { onMount } from "svelte";
   import House from "./house.svelte";
+  import { fetchBackend } from "$lib/fetch";
 
-  const Data = [
-    {
-      price: "3,216,646 DTN",
-      location: "Jendouba",
-      address: "Avenue Habib Bourguiba",
-      date: "12/25/2024",
-      roomnbr: 3,
-      bathnbr: 2,
-      surface: 1580,
-      type: "House for sale",
-      img: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg",
-    },
-  ];
-  for (let i = 0; i < 1; i++) {
-    Data.push({
-      price: `${(Math.random() * 1000000).toFixed(0)} DTN`,
+  var Data = $state([]);
 
-      location: ["Jendouba", "Tunis", "Sousse", "Sfax", "Bizerte"][
-        Math.floor(Math.random() * 5)
-      ],
-      address: "Avenue Habib Bourguiba",
-      date: new Date(
-        Date.now() + Math.random() * 10000000000
-      ).toLocaleDateString(),
-      roomnbr: Math.floor(Math.random() * 5) + 1,
-      bathnbr: Math.floor(Math.random() * 3) + 1,
-      surface: Math.floor(Math.random() * 2000) + 500,
-      type: ["House for sale", "Apartment for rent", "Villa for sale"][
-        Math.floor(Math.random() * 3)
-      ],
-      img: [
-        "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg",
-        "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      ][Math.floor(Math.random() * 2)],
-    });
-  }
+  onMount(() => {
+    fetchBackend("/house/feed")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        Data = data;
+      });
+  });
 </script>
-
-<main>
-  {#each Data as house}
+<div style="position: relative;">
+  <results>
+    <p>Results Found</p>
+    <h1>{Data.length}</h1>
+  </results>
+  <main>
+    {#each Data as house}
     <House {house} />
-  {/each}
-</main>
-
+    {/each}
+  </main>
+</div>
+  
 <style>
   main {
     margin-top: 80px;
@@ -52,5 +33,26 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
     padding: 0% 5%;
+  }
+  results {
+    padding: 1% 5%;
+    
+    position: absolute;
+    right: 0;
+    top: -50px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: baseline;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: Milk;
+    }
+
+    p {
+      opacity: 0.5;
+    }
   }
 </style>

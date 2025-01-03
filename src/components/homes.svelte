@@ -3,29 +3,24 @@
   import House from "./house.svelte";
   import { fetchBackend } from "$lib/fetch";
 
-  var Data = $state([]);
-
-  onMount(() => {
-    fetchBackend("/house/feed")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        Data = data;
-      });
-  });
+  export let Data = [];
 </script>
+
 <div style="position: relative;">
   <results>
     <p>Results Found</p>
     <h1>{Data.length}</h1>
   </results>
   <main>
+    {#if Data.length === 0}
+      <h1>Loading . . .</h1>
+    {/if}
     {#each Data as house}
-    <House {house} />
+      <House {house} />
     {/each}
   </main>
 </div>
-  
+
 <style>
   main {
     margin-top: 80px;
@@ -36,7 +31,7 @@
   }
   results {
     padding: 1% 5%;
-    
+
     position: absolute;
     right: 0;
     top: -50px;

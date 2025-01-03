@@ -8,6 +8,7 @@
     Car,
     WavesLadder,
     FlameKindling,
+    Mail,
   } from "lucide-svelte";
   import Map from "../../../components/map.svelte";
   import Footer from "../../../components/footer.svelte";
@@ -26,18 +27,23 @@
   var town = $state("");
   var street = $state("");
   var address = $state("");
+  var owner = $state({
+    Username: "e e",
+    Email: "a@b.c",
+  });
   onMount(() => {
     fetchBackend("/house/get/" + page.params.ID)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         Data = data;
+        if (Data.currency == "") Data.currency = "TND";
         lat = Data.address.lat;
         lng = Data.address.lng;
         address = Data.address.address;
-        town = address.split(",").slice(5).join(",");
+        town = address.split(",").slice(-2).join(", ");
         street = address.split(",").slice(0, -2).join(", ");
-
+        owner = Data.Owner;
         pics = data.images;
       });
   });
@@ -49,6 +55,10 @@
     isPicsVisible = !isPicsVisible;
     console.log(isPicsVisible);
   };
+
+  function eMail(mail) {
+    window.location.href = `mailto:${mail}`;
+  }
 </script>
 
 <main>
@@ -79,7 +89,7 @@
       >
         <div>
           <location><MapPin size={18} />{town} </location>
-          <!-- <state>House for sale</state> -->
+          <state>Maison à vendre</state>
         </div>
         <h2>{street}</h2>
       </div>
@@ -88,6 +98,7 @@
         <h1>{Data.price}</h1>
         <h2>{Data.currency}</h2>
       </price>
+
       <discription>
         <badges>
           <badge>{Data.bedroom} <Bed size={16} /></badge>
@@ -101,18 +112,24 @@
       <options>
         <h1>Characteristics</h1>
         <div>
-            {#if Data.garage}
+          {#if Data.garage}
             <badge><Car size={15} />Garage</badge>
-            {/if}
-            {#if Data.pool}
+          {/if}
+          {#if Data.pool}
             <badge><WavesLadder size={15} />Piscine</badge>
-            {/if}
-            {#if Data.camera}
+          {/if}
+          {#if Data.camera}
             <badge><Cctv size={15} />Système de sécurité</badge>
-            {/if}
+          {/if}
         </div>
         <br />
       </options>
+      <div
+        style="display: flex;width:100%;justify-content:space-between;margin-top:1em"
+      >
+        <Profile username={owner.Username} type={owner.Email} />
+        <button contact onclick={eMail(owner.Email)}>Contact</button>
+      </div>
     </info>
 
     <contact>
@@ -126,6 +143,13 @@
 </main>
 
 <style>
+  button[contact] {
+    background: #000000;
+    color: #fff;
+    padding: 1em;
+    width: 20%;
+    border-radius: 10px;
+  }
   main {
     display: flex;
     flex-direction: column;

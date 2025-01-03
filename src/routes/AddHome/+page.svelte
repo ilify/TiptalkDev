@@ -7,9 +7,30 @@
   import Inputmap from "../../components/inputmap.svelte";
   import Checkbox from "../../components/checkbox.svelte";
   import { fetchBackend } from "$lib/fetch";
-  import { LoaderCircle } from "lucide-svelte";
+  import {
+    LoaderCircle,
+    Flag,
+    Webhook,
+    Cake,
+    Handshake,
+    Coins,
+  } from "lucide-svelte";
+  import { LandPlot } from "lucide-svelte";
+  import { onMount } from "svelte";
 
   let loading = $state(false);
+  let isvalid = $state(false);
+  let Solde = $state(10);
+
+  onMount(() => {
+    fetchBackend("/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        Solde = data.Solde;
+        // console.log(data);
+      });
+  });
+
   let Types = [
     { value: "Appartement", label: "Appartement" },
     { value: "Maison", label: "Maison" },
@@ -31,25 +52,38 @@
 
   let Data = $state({
     images: [], //
-    type: "", //
+    type: "Maison", //
     price: "", //
-    currency: "", //
+    currency: "TND", //
     description: "", //
-    address: "", //
+    address: {
+      address: "",
+      lng: 0.0,
+      lat: 0.0,
+    }, //
     bedroom: 0, //
     bathroom: 0, //
-    year: 2000, //
+    year: 2010, //
     surface: 0, //
-    unitsurface: "", //
-    lot: 0, //
-    unitlot: "", //
+    unitsurface: "m²", //
+    lot: "", //
+    unitlot: "m²", //
     furnished: false, //
     pool: false, //
     garage: false, //
     outdoor: false, //
     camera: false, //
     heating: false, //
+    paymentoption: {},
   });
+
+  function validate() {
+    if (0) {
+      // Validate
+      //
+    }
+    isvalid = true;
+  }
 
   function Send() {
     loading = true;
@@ -59,23 +93,67 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify(Data),
-    }).then((res) => {
-      if (res.ok) {
+    })
+      .then((res) => res.json())
+      .then((res) => {
         // console.log("Success");
         loading = false;
-      }
+        isvalid = false;
+        const atag = document.createElement("a");
+        atag.href = "/Home/" + res.houseID;
+        atag.click();
+      })
+      .catch((err) => {
+        console.log(err);
+        loading = false;
+      });
+  }
+
+  let detuctables = $state(0);
+
+  let Payoptions = $state([
+    { days: 30, credit: 100, selected: false },
+    { days: 60, credit: 180, selected: false },
+    { days: 90, credit: 250, selected: false },
+    { days: 180, credit: 450, selected: false },
+  ]);
+
+  function deselectAll() {
+    Payoptions.forEach((option) => {
+      option.selected = false;
     });
   }
+
+  let CanContinue = $state(false);
+
+  $effect(() => {
+    let testPrice = parseInt(Data.price) > 10000;
+    let testDescription = Data.description.length > 10;
+    let testAddress = Data.address.address.length > 5;
+    let testImages = Data.images.length > 3;
+    let testSurface = parseInt(Data.surface) > 0;
+    CanContinue =
+      testPrice && testDescription && testAddress && testImages && testSurface;
+    console.log(
+      testPrice,
+      testDescription,
+      testAddress,
+      testImages,
+      testSurface
+    );
+  });
 </script>
 
 <main>
-  <Navbar />
+  <Navbar reload={isvalid} />
+
   <article>
     <h1>Déposer une annonce</h1>
     <step>
       <images>
         <h2>Images et Aperçu</h2>
         <p>Ajoutez des images de votre bien et prévisualisez-les ici</p>
+        <br />
         <Imageinput bind:images={Data.images} />
       </images>
       <info>
@@ -89,7 +167,13 @@
         <div style="gap: .3rem;">
           <p>Prix</p>
           <div style="margin-top: 0;width:100%">
-            <input placeholder="Prix de l'annonce" bind:value={Data.price} />
+            <input
+              type="number"
+              min="10000"
+              max="10000000"
+              placeholder="Prix de l'annonce ( min : 10000 TND )"
+              bind:value={Data.price}
+            />
             <Select
               placeholder="TND"
               data={Currency}
@@ -128,7 +212,7 @@
 
         <div>
           <p>Année de construction</p>
-          <Inputint bind:count={Data.year} />
+          <Inputint bind:count={Data.year} min={1950} max={2025} />
         </div>
 
         <div style="gap: .3rem;">
@@ -189,7 +273,7 @@
           de Confidentialité.
         </p>
       </law>
-      <button onclick={Send} disabled={loading}>
+      <button onclick={validate} disabled={loading || !CanContinue}>
         {#if loading}
           <LoaderCircle />
         {:else}
@@ -198,9 +282,178 @@
       </button>
     </div>
   </article>
+  {#if isvalid}
+    <dialoge>
+      <div>
+        <dov
+          style="display: flex; flex-direction: row; gap: 1rem; align-items: center"
+        >
+          <Handshake size={32} />
+          <h1>Success</h1>
+        </dov>
+        <p style="margin-top:-10px">
+          Votre annonce a été publiée avec succès et est désormais visible par
+          les utilisateurs de notre plateforme. Merci de votre confiance
+        </p>
+
+        <dop style="margin: 3% 0;">
+          <h2 style="font-weight: 500;display:flex;gap:1rem;align-items:center">
+            <LandPlot size={32} />Choisissez votre plan
+          </h2>
+
+          <solde>{Solde}</solde>
+        </dop>
+        {#if Solde < 100}
+          <dop>
+            <p style="margin-top: -10px;">
+              Votre solde est insuffisant pour publier cette annonce.<br /> Veuillez
+              recharger votre compte pour continuer
+            </p>
+            <a href="/Recharge"><Coins />Recharge</a>
+          </dop>
+        {:else}
+          <pay>
+            {#each Payoptions as option}
+              <!-- svelte-ignore a11y_click_events_have_key_events -->
+              <!-- svelte-ignore a11y_no_static_element_interactions -->
+              <optiona
+                selected={option.selected}
+                onclick={() => {
+                  deselectAll();
+                  detuctables = option;
+                  Data.paymentoption = option;
+                  option.selected = true;
+                }}
+              >
+                <dop>
+                  <p>{option.days} Days</p>
+                </dop>
+                <dop>
+                  <h2>{option.credit}</h2>
+                  Credit
+                </dop>
+              </optiona>
+            {/each}
+          </pay>
+          <dop style="justify-content: end;margin-top: 20px;">
+            <button
+              style="background: none;border:3px solid #000;color:#000;box-sizing:border-box;"
+              onclick={() => (isvalid = false)}>Annuler</button
+            >
+            <button style="border:3px solid #000;" onclick={Send}
+              >Confirmer</button
+            >
+          </dop>
+        {/if}
+      </div>
+    </dialoge>
+  {/if}
 </main>
 
 <style>
+  a {
+    text-decoration: none;
+    color: #ffffff;
+    background: #000000;
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  solde {
+    background: #f0f0f0;
+    padding: 5px 20px;
+    border-radius: 50px;
+  }
+  dialoge {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: center;
+    /* transform: translate(-50%, -50%); */
+
+    div {
+      width: 45vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
+      background: #fff;
+      border-radius: 10px;
+      padding: 2.5rem;
+      /* box-shadow: 0 0 1000px rgba(0, 0, 0, 1); */
+    }
+
+    dop {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    pay {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+
+      optiona {
+        padding: 1em;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100px;
+        border-radius: 10px;
+        background: #f4f4f7;
+        transition: 0.15s ease all;
+        cursor: pointer;
+
+        &:hover {
+          background: #e4e4e7;
+        }
+
+        dop {
+          align-items: center;
+        }
+        dop:last-child {
+          justify-content: start;
+          align-items: baseline;
+          margin-bottom: -10px;
+        }
+        p {
+          font-size: 1rem;
+          margin: 0;
+          opacity: 0.7;
+        }
+
+        h2 {
+          font-size: 2rem;
+          font-family: Milk;
+          margin: 0;
+        }
+      }
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-family: typo;
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-family: typo;
+      margin: 0;
+    }
+  }
   main {
     display: flex;
     flex-direction: column;
@@ -293,6 +546,12 @@
       /* width: 10%; */
       height: 100%;
       background: rgb(0, 0, 0);
+    }
+
+    button:disabled {
+      background: #e4e4e7;
+      color: #ffffff;
+      cursor: not-allowed;
     }
   }
 

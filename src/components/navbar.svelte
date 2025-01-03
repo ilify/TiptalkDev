@@ -25,7 +25,7 @@
 
     return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
   }
-
+  export var { reload } = $props();
   var isAuthShowing = $state(false);
 
   function logout() {
@@ -38,11 +38,13 @@
   }
 
   $effect(() => {
+    if (reload) {
+      // pass
+    }
     fetchBackend("/auth/me").then((res) => {
       if (res.ok) {
         isRegistered = true;
         res.json().then((data) => {
-          console.log(data);
           name = data.Username;
           Account = data;
         });
@@ -53,25 +55,58 @@
   function hover() {
     const infoElement = document.querySelector("info");
     infoElement.style.opacity = infoElement.style.opacity === "1" ? "0" : "1";
+    infoElement.style.pointerEvents =
+      infoElement.style.pointerEvents === "all" ? "none" : "all";
   }
+
+  // leap solde if changed
+  function animNumber(from, to, duration, element) {
+    if (
+      typeof from !== "number" ||
+      typeof to !== "number" ||
+      typeof duration !== "number"
+    ) {
+      throw new Error(
+        "Parameters 'from', 'to', and 'duration' must be numbers."
+      );
+    }
+    if (!(element instanceof HTMLElement)) {
+      throw new Error("Parameter 'element' must be a valid DOM element.");
+    }
+
+    let start = null;
+
+    function step(timestamp) {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1); // Ensure progress doesn't exceed 1
+      const currentValue = Math.floor(progress * (to - from) + from);
+      element.textContent = currentValue; // Use textContent for better performance
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    }
+
+    window.requestAnimationFrame(step);
+  }
+
+  
 </script>
 
 <nav>
   {#if isRegistered}
     <div>
       <Logo />
-      <a href="/">Listings</a>
+      <a href="/">Annonces</a>
     </div>
     <div>
       <a href="/AddHome">Déposer une annonce</a>
-      <solde>{Account.Solde || 0}</solde>
+      <solde>{Account.Solde}</solde>
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <profile
         onclick={hover}
-        style="background:linear-gradient(45deg,{getRandomColor(
-          name
-        )},{getRandomColor(name.toLocaleUpperCase())})"
+        style="background:linear-gradient(45deg,{getRandomColor(name)},{getRandomColor(name.toLocaleUpperCase())})"
         >{name[0].toUpperCase()}
       </profile>
 
@@ -132,6 +167,7 @@
   info {
     z-index: 9999;
     opacity: 0;
+    pointer-events: none;
     background: rgb(255, 255, 255);
     width: 300px;
     display: flex;
@@ -165,7 +201,7 @@
       font-family: figtree;
       transition: transform 0.3s ease;
       &:hover {
-        transform: translate(5px,-3px) ;
+        transform: translate(5px, -3px);
       }
     }
 

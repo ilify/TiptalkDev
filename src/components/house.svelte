@@ -7,8 +7,8 @@
 
   onMount(() => {
     const addressParts = house.address.address.split(",");
-    town = addressParts.slice(5).join(", ");
-    street = addressParts.slice(0, -5).join(", ");
+    town = addressParts.slice(3).join(", ");
+    street = addressParts.slice(0, -2).join(", ");
   });
 
   function formatPrice(price) {
@@ -103,6 +103,7 @@
       color: #fff;
       font-family: Milk;
       text-overflow: ellipsis;
+      text-align: end;
       overflow: hidden;
       white-space: nowrap;
       width: 20vw;

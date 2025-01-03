@@ -1,23 +1,25 @@
 <script>
   import { Plus, Minus } from "lucide-svelte";
 
-  export var { count = $bindable() } = $props();
+  export var { count = $bindable(), min = 0, max = 10 } = $props();
 
   function increment() {
-    count += 1;
+    if (count < max) {
+      count += 1;
+    }
   }
 
   function decrement() {
-    count -= 1;
+    if (count > min) {
+      count -= 1;
+    }
   }
 </script>
 
 <div class="container">
-  <button class="button" onclick={decrement} disabled={count <= 0}
-    ><Minus /></button
-  >
+  <button class="button" onclick={decrement} disabled={count <= min}><Minus /></button>
   <p>{count}</p>
-  <button class="button" onclick={increment}><Plus /></button>
+  <button class="button" onclick={increment} disabled={count >= max}><Plus /></button>
 </div>
 
 <style>
@@ -61,7 +63,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* border: 1px solid #ccc; */
     border-radius: 5px;
     height: 43px;
   }

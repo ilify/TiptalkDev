@@ -3,25 +3,22 @@
   export let type: string;
   export let isUnfolded: boolean = false;
   export function getRandomColor(username) {
-    // Generate a hash code from the username
     let hash = 0;
     for (let i = 0; i < username.length; i++) {
       hash = username.charCodeAt(i) + ((hash << 5) - hash);
     }
 
-    // Convert the hash to an RGB color
     const r = (hash >> 16) & 0xff;
     const g = (hash >> 8) & 0xff;
     const b = hash & 0xff;
 
-    // Return the color in hex format
     return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
   }
 </script>
 
 <span class:isUnfolded>
   <pic
-    style={`background: linear-gradient(45deg,${getRandomColor(username.split(" ")[0])},${getRandomColor(username.split(" ")[1])});`}
+    style={`background: linear-gradient(45deg,${getRandomColor(username)},${getRandomColor(username.toLocaleUpperCase())});`}
     >{username[0]}
   </pic>
   <div>
@@ -46,7 +43,7 @@
   }
 
   .username {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
     font-family: Slice;
     color: #000000;
@@ -55,7 +52,7 @@
   }
 
   .type {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     font-family: Figtree;
     color: #808080;
@@ -64,8 +61,8 @@
   }
 
   pic {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     min-width: 40px;
     border-radius: 50%;
     background-color: #e0e0e0;

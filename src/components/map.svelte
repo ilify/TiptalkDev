@@ -10,7 +10,7 @@
   // Reactive variables for coordinates and zoom level
   // let lat = 37.266915;
   // let lng = 9.883565;
-  let zoom = 15;
+  let zoom = 5;
 
   let minZoom = 5;
   let maxZoom = 19;
@@ -53,6 +53,7 @@
   });
 </script>
 
+<!-- {lat} {lng} -->
 <div bind:this={mapElement} class="map-container">
   <button onclick={changeMode}>◑</button>
 </div>

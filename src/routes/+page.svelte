@@ -6,15 +6,28 @@
   import Homes from "../components/homes.svelte";
   import Footer from "../components/footer.svelte";
   import Auth from "../components/auth.svelte";
+  import { onMount } from "svelte";
+  import { fetchBackend } from "../lib/fetch";
+
+  let AllData = $state([]);
+  let FilteredData = $state([]);
+
+  onMount(() => {
+    fetchBackend("/house/feed")
+      .then((res) => res.json())
+      .then((data) => {
+        AllData = data;
+        FilteredData = data;
+      });
+  });
 </script>
 
 <main>
   <Navbar />
   <Banner />
-  <Filter />
-  <Homes />
+  <Filter bind:All={AllData} bind:Filtered={FilteredData} />
+  <Homes Data={FilteredData} />
   <Footer />
-  <slot></slot>
 </main>
 
 <style>

@@ -4,6 +4,9 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import { Slider } from "$lib/components/ui/slider";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
+
+  export var { All = $bindable(), Filtered = $bindable() } = $props();
+
   var price = $state([10000, 1000000]);
   var surface = $state([30, 10000]);
   const Region = [
@@ -47,20 +50,62 @@
     { value: "5", label: "5" },
   ];
   const Pays = [
-    { value: "Tunisie", label: "Tunisie" },
+    { value: "Tunisia", label: "Tunisie" },
     { value: "France", label: "France" },
     { value: "Italie", label: "Italie" },
     { value: "Espagne", label: "Espagne" },
     { value: "Allemagne", label: "Allemagne" },
   ];
+  let pays = $state("");
+  let type = $state("");
+  let location = $state("");
+  let roomnbr = $state("");
+
+  function filter() {
+    let filtered = All.filter((item) => {
+      const countryi = item.address.address.split(",")[5];
+      const locationi = item.address.address.split(",")[3];
+
+      let priceFilter = item.price >= price[0] && item.price <= price[1]; //
+      let surfaceFilter =
+        item.surface >= surface[0] && item.surface <= surface[1]; //
+      let roomnbrFilter = item.bedroom == roomnbr || roomnbr == ""; //
+
+      let typeFilter =
+        item.type.toLowerCase() == type.toLowerCase() || type == ""; //
+
+      let paysFilter = (countryi && countryi.trim() === pays.trim()) || pays === "";
+      let locationFilter =
+        locationi.trim().toLowerCase() === location.trim().toLowerCase() || location === "";
+
+      return (
+        priceFilter &&
+        surfaceFilter &&
+        roomnbrFilter &&
+        paysFilter &&
+        typeFilter &&
+        locationFilter
+      );
+    });
+
+    Filtered = filtered;
+  }
+
+  $effect(() => {
+    filter();
+  });
 </script>
 
 <all>
   <main>
-    <Select placeholder="Pays" data={Pays} />
-    <Select placeholder="Type" data={Types} />
-    <Select placeholder="Location" data={Region} />
-    <Select placeholder="Nombre de pièces" data={Roomnbr} />
+    <Select placeholder="Pays" data={Pays} bind:selected={pays} />
+    <Select placeholder="Type" data={Types} bind:selected={type} />
+    <Select placeholder="Location" data={Region} bind:selected={location} />
+    <Select
+      placeholder="Nombre de pièces"
+      data={Roomnbr}
+      bind:selected={roomnbr}
+    />
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild let:builder>
         <Button

@@ -51,13 +51,5 @@
       background: #fff;
       color: rgba(0, 0, 0) !important;
     }
-
-    &[valid="true"] Icon {
-      opacity: 0.5;
-
-      svg {
-        fill: #006a00;
-      }
-    }
   }
 </style>

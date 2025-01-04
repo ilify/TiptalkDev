@@ -13,7 +13,7 @@
 
   function formatPrice(price) {
     // Convert the price to a number, in case it's a string
-    const numericPrice = parseFloat(price.replace(/[^\d.-]/g, "")); // Remove non-numeric characters
+    const numericPrice = parseFloat(price); // Remove non-numeric characters
     if (isNaN(numericPrice)) return price; // Return original input if not a valid number
 
     // Format the price with thousands separators and no decimals

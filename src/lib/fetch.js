@@ -6,6 +6,6 @@ export function fetchBackend(url, options) {
     return fetch(link + url, {
         ...options, // spread the existing options
         credentials: 'include', // Ensure cookies are sent with the request
-        mode: 'no-cors'
+        // mode: 'no-cors'
     });
 }

@@ -8,6 +8,7 @@
   import Auth from "../components/auth.svelte";
   import { onMount } from "svelte";
   import { fetchBackend } from "../lib/fetch";
+  import Loader from "../components/Loader.svelte";
 
   let AllData = $state([]);
   let FilteredData = $state([]);
@@ -23,6 +24,7 @@
 </script>
 
 <main>
+  <Loader />
   <Navbar />
   <Banner />
   <Filter bind:All={AllData} bind:Filtered={FilteredData} />

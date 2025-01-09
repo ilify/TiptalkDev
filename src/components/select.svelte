@@ -5,7 +5,7 @@
 
 <Select.Root>
   <Select.Trigger
-    class="w-[180px] "
+    class="w-[48%] md:w-[180px]"
     style="border:1px solid #e4e4e7;border-radius:10px;"
   >
     <Select.Value {placeholder} />

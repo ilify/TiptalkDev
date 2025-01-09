@@ -80,4 +80,27 @@
       font-size: 18px;
     }
   }
+
+  @media (max-width: 450px) {
+    footer {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-top: 50px;
+      height: fit-content !important;
+    }
+
+    section {
+      width: 100%;
+      align-items: center;
+      gap: 10px;
+      height: fit-content !important;
+      margin: 0 !important;
+      display: none !important;
+    }
+
+    section:nth-child(1) {
+      display: flex !important;
+    }
+  }
 </style>

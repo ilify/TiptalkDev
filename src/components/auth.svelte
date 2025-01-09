@@ -2,6 +2,7 @@
   import { fetchBackend } from "$lib/fetch";
   import Input from "./input.svelte";
   import Logo from "./logo.svelte";
+  import { LoaderCircle } from "lucide-svelte";
 
   export var {
     isAuthShowing = $bindable(),
@@ -45,12 +46,15 @@
     next();
   }
 
+  let LoginFetching = $state(false);
+
   function toSignup() {
     isLogin = false;
     next();
   }
 
   function submit() {
+    LoginFetching = true;
     fetchBackend("/auth" + (isLogin ? "/login" : "/register"), {
       method: "POST",
       headers: {
@@ -70,8 +74,11 @@
         name = data.Username;
         isRegistered = true;
         isAuthShowing = false;
+        LoginFetching = false;
       })
       .catch((err) => {
+        LoginFetching = false;
+        uiData[isLogin ? 0 : 1].button = "Erreur , réessayer !";
         console.error("Error:", err); // Handle errors from any part of the chain
       });
   }
@@ -79,7 +86,10 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<main onclick={() => (isAuthShowing = false)}>
+<main
+  onclick={() => (isAuthShowing = false)}
+  class={isAuthShowing ? "show" : "hide"}
+>
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <panel onclick={(e) => e.stopPropagation()}>
     <content style="--pos: {pos}">
@@ -128,9 +138,15 @@
           bind:value={Data.password}
         />
 
-        <button style="margin-top: 10px;" onclick={submit}
-          >{uiData[isLogin ? 0 : 1].button}</button
-        >
+        <button style="margin-top: 10px;" onclick={submit}>
+          {#if !LoginFetching}
+            {uiData[isLogin ? 0 : 1].button}
+          {:else}
+            <s>
+              <LoaderCircle />
+            </s>
+          {/if}
+        </button>
         <law>
           By clicking Sign Up, you agree to our <a href="/">Terms of Service</a>
           and <a href="/">Privacy Policy</a>
@@ -153,6 +169,7 @@
     align-items: center;
     backdrop-filter: blur(5px);
     z-index: 100;
+    transition: 0.3s all;
   }
 
   panel {
@@ -165,6 +182,7 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    transition: 0.2s all;
   }
 
   content {
@@ -253,5 +271,91 @@
   }
   back {
     cursor: pointer;
+  }
+
+  .show {
+    opacity: 1;
+    pointer-events: all;
+
+    panel {
+      transform: translateY(0);
+    }
+  }
+
+  .hide {
+    opacity: 0;
+    pointer-events: none;
+    panel {
+      transform: translateY(200%);
+    }
+  }
+
+  s {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @media (max-width: 768px) {
+    panel {
+      width: calc(100% - 20px);
+      height: 50vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    content {
+      box-sizing: border-box;
+      padding: 30px;
+      width: 100%;
+      gap: 3px;
+      mask-image: linear-gradient(
+        to right,
+        transparent 8%,
+        black 8%,
+        black 92%,
+        transparent 92%
+      );
+
+      > * {
+        min-width: 100%;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+        white-space: nowrap;
+        text-overflow: hidden;
+      }
+
+      p {
+        font-size: 0.8rem;
+      }
+
+      button {
+        padding: 10px;
+      }
+
+      law {
+        font-size: 0.6rem;
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    content {
+      mask-image: linear-gradient(
+        to right,
+        transparent 9%,
+        black 9%,
+        black 91%,
+        transparent 91%
+      );
+    }
   }
 </style>

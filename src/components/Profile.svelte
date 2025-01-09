@@ -55,6 +55,9 @@
     font-size: 14px;
     font-weight: 400;
     font-family: Figtree;
+    width: 90%;
+    max-width: 150px;
+    text-overflow: ellipsis;
     color: #808080;
     white-space: nowrap;
     overflow: hidden;
@@ -63,7 +66,8 @@
   pic {
     width: 50px;
     height: 50px;
-    min-width: 40px;
+    aspect-ratio: 1;
+    min-width: 50px;
     border-radius: 50%;
     background-color: #e0e0e0;
     display: flex;

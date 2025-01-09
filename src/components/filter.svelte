@@ -74,9 +74,11 @@
       let typeFilter =
         item.type.toLowerCase() == type.toLowerCase() || type == ""; //
 
-      let paysFilter = (countryi && countryi.trim() === pays.trim()) || pays === "";
+      let paysFilter =
+        (countryi && countryi.trim() === pays.trim()) || pays === "";
       let locationFilter =
-        locationi.trim().toLowerCase() === location.trim().toLowerCase() || location === "";
+        locationi.trim().toLowerCase() === location.trim().toLowerCase() ||
+        location === "";
 
       return (
         priceFilter &&
@@ -159,6 +161,7 @@
   all {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     padding: 0 5%;
     align-items: end;
     justify-content: space-between;
@@ -169,6 +172,8 @@
     margin-top: 20px;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+
     /* justify-content: s; */
     gap: 10px;
     align-items: baseline;
@@ -187,5 +192,12 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 10px;
+  }
+
+  @media (max-width: 768px) {
+    div {
+      width: 100%;
+      /* transform: translateX(20px); */
+    }
   }
 </style>

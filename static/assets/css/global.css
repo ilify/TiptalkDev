@@ -9,15 +9,20 @@
   font-family: "Figtree", sans-serif;
 }
 html {
-  height: 100%;
+  height: fit-content;
   /* background: red; */
-  width: 100%;
+  width: 100vw;
+  /* background: rgb(94, 58, 58) !important; */
+  min-height: 100%;
 }
 
 body {
-  height: 100%;
-  width: 100%;
+  height: fit-content;
+  width: 100vw;
   font-family: "Roboto", sans-serif;
+  overflow-x: hidden;
+  top: 0 !important;
+  /* position: fixed; */
 }
 
 button {
@@ -65,4 +70,11 @@ progress::-webkit-progress-value {
 *[selected] {
   outline: 3px solid #000;
   outline-offset: 2px;
+}
+
+#\:1\.container {
+  display: none;
+}
+.skiptranslate {
+  display: none;
 }

@@ -1,7 +1,10 @@
 <script>
   import { fetchBackend } from "$lib/fetch";
   import Auth from "./auth.svelte";
+  import Lang from "./lang.svelte";
   import Logo from "./logo.svelte";
+  import { LoaderCircle } from "lucide-svelte";
+
   let isRegistered = $state(false);
   let name = $state("Empty");
   let Account = $state({});
@@ -91,73 +94,81 @@
   }
 
   
+
+ 
 </script>
 
 <nav>
-  {#if isRegistered}
-    <div>
+  <div>
+    <ldiv>
       <Logo />
-      <a href="/">Annonces</a>
-    </div>
-    <div>
-      <a href="/AddHome">Déposer une annonce</a>
-      <solde>{Account.Solde}</solde>
-      <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <profile
-        onclick={hover}
-        style="background:linear-gradient(45deg,{getRandomColor(name)},{getRandomColor(name.toLocaleUpperCase())})"
-        >{name[0].toUpperCase()}
-      </profile>
+    </ldiv>
+    <a href="/">Annonces</a>
+  </div>
+  <div style="display: flex;align-items: center;gap: 20px;">
+    {#if isRegistered}
+      <div>
+        <a href="/AddHome">Déposer une annonce</a>
+        <solde>{Account.Solde}</solde>
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <profile
+          onclick={hover}
+          style="background:linear-gradient(45deg,{getRandomColor(
+            name
+          )},{getRandomColor(name.toLocaleUpperCase())})"
+          >{name[0].toUpperCase()}
+        </profile>
 
-      <info>
-        <div
-          style="display: flex;align-items: center;gap: 15px;margin-bottom: 10px;"
-        >
-          <profile
-            style="background:linear-gradient(45deg,{getRandomColor(
-              name
-            )},{getRandomColor(name.toLocaleUpperCase())})"
-            >{name[0].toUpperCase()}
-          </profile>
+        <info>
           <div
-            style="display: flex; flex-direction: column; justify-content: center;gap: 0px;"
+            style="display: flex;align-items: center;gap: 15px;margin-bottom: 10px;"
           >
-            <h3>{name}</h3>
-            <p style="opacity: .7;">{Account.Email}</p>
+            <profile
+              style="background:linear-gradient(45deg,{getRandomColor(
+                name
+              )},{getRandomColor(name.toLocaleUpperCase())});aspect-ratio: 1;"
+              >{name[0].toUpperCase()}
+            </profile>
+            <div
+              style="display: flex; flex-direction: column; justify-content: center;gap: 0px;"
+            >
+              <h3>{name}</h3>
+              <p
+                style="opacity: .7;width:90%;overflow:hidden;text-overflow:ellipsis"
+              >
+                {Account.Email}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <a href="/Recharge"><Coins size={18} />Rechargé</a>
-        <a href="/contact"><HeartHandshake size={18} />Contact</a>
-        <a href="/about"><Info size={18} />About</a>
+          <a href="/Recharge"><Coins size={18} />Rechargé</a>
+          <a href="/contact"><HeartHandshake size={18} />Contact</a>
+          <a href="/about"><Info size={18} />About</a>
 
-        <a
-          href="/"
-          onclick={logout}
-          style="display: flex; align-items: center; gap: 15px;"
-        >
-          <LogOut size={18} />Logout
-        </a>
+          <a
+            href="/"
+            onclick={logout}
+            style="display: flex; align-items: center; gap: 15px;"
+          >
+            <LogOut size={18} />Logout
+          </a>
 
-        <pip style="margin-top: 10px;">Dev Version 0.9</pip>
-      </info>
-    </div>
-  {:else}
-    <div>
-      <Logo />
-      <a href="/">Listings</a>
-      <a href="/about">Search</a>
-      <a href="/contact">Contact</a>
-    </div>
-    <button onclick={(isAuthShowing = true)}> Register </button>
-  {/if}
+          <pip style="margin-top: 10px;">Dev Version 0.9</pip>
+        </info>
+      </div>
+    {:else}
+      <button onclick={(isAuthShowing = true)}> Register </button>
+    {/if}
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <Lang />
+  </div>
 </nav>
-{#if isAuthShowing}
-  <Auth bind:isAuthShowing bind:isRegistered bind:name />
-{/if}
+<Auth bind:isAuthShowing bind:isRegistered bind:name />
 
 <style>
+  
   solde {
     background: #e4e4e4;
     padding: 5px 20px;
@@ -261,5 +272,28 @@
     justify-content: center;
     align-items: center;
     font-size: 15px;
+  }
+
+  @media (max-width: 450px) {
+    nav {
+      padding: 0 2%;
+    }
+
+    div {
+      gap: 0px;
+    }
+
+    a {
+      font-size: 13px;
+      transform: translateY(-4px);
+    }
+
+    button {
+      font-size: 13px;
+    }
+
+    ldiv {
+      transform: scale(0.8);
+    }
   }
 </style>

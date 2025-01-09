@@ -15,14 +15,20 @@
   });
 
   function Translate() {
-    const select = document.querySelector(".goog-te-combo");
-    select.value = setLang;
-    const event = new Event("change", { bubbles: true });
-    select.dispatchEvent(event);
-    // const option = select.querySelector("option[value=" + setLang + "]");
-    // console.log(option, setLang);
-    // option.click();
-    isLoad = false;
+    try {
+      const select = document.querySelector(".goog-te-combo");
+      select.value = setLang;
+      const event = new Event("change", { bubbles: true });
+      select.dispatchEvent(event);
+      isLoad = false;
+    } catch (e) {
+      isLoad = false;
+      if (setLang === "en") {
+        setLang = "fr";
+      } else {
+        setLang = "en";
+      }
+    }
   }
 
   let isLoad = $state(false);

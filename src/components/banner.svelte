@@ -11,10 +11,10 @@
     <br />
     <t>concrétisez vos projets immobiliers en toute sérénité</t>
   </p>
-  <searchbar>
+  <!-- <searchbar>
     <input type="text" placeholder="Rechercher une propriété" />
     <button><Search size={22} /></button>
-  </searchbar>
+  </searchbar> -->
 </main>
 
 <style>

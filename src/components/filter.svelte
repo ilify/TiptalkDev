@@ -51,10 +51,10 @@
   ];
   const Pays = [
     { value: "Tunisia", label: "Tunisie" },
-    { value: "France", label: "France" },
-    { value: "Italie", label: "Italie" },
-    { value: "Espagne", label: "Espagne" },
-    { value: "Allemagne", label: "Allemagne" },
+    // { value: "France", label: "France" },
+    // { value: "Italie", label: "Italie" },
+    // { value: "Espagne", label: "Espagne" },
+    // { value: "Allemagne", label: "Allemagne" },
   ];
   let pays = $state("");
   let type = $state("");

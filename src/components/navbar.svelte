@@ -92,15 +92,11 @@
 
     window.requestAnimationFrame(step);
   }
-
-  
-
- 
 </script>
 
 <nav>
-  <div>
-    <ldiv>
+  <div style="display: flex;display: flex;align-items: center;gap: 0px;">
+    <ldiv style="margin-right: -20px;margin-top: -10px;margin-left: -10px;">
       <Logo />
     </ldiv>
     <a href="/">Annonces</a>
@@ -168,7 +164,6 @@
 <Auth bind:isAuthShowing bind:isRegistered bind:name />
 
 <style>
-  
   solde {
     background: #e4e4e4;
     padding: 5px 20px;

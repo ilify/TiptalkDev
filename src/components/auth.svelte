@@ -7,7 +7,7 @@
   export var {
     isAuthShowing = $bindable(),
     isRegistered = $bindable(),
-    name = $bindable(),
+    reload = $bindable(),
   } = $props();
   let pos = $state(0);
   let isLogin = $state(true);
@@ -57,9 +57,6 @@
     LoginFetching = true;
     fetchBackend("/auth" + (isLogin ? "/login" : "/register"), {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify(Data),
     })
       .then((res) => {
@@ -71,7 +68,7 @@
       })
       .then((data) => {
         console.log("Success:", data);
-        name = data.Username;
+        reload = data;
         isRegistered = true;
         isAuthShowing = false;
         LoginFetching = false;
@@ -311,20 +308,14 @@
     }
 
     content {
+      scale: 0.95;
       box-sizing: border-box;
-      padding: 30px;
-      width: 100%;
+      /* padding: 30px; */
+      width: 75vw;
       gap: 3px;
-      mask-image: linear-gradient(
-        to right,
-        transparent 8%,
-        black 8%,
-        black 92%,
-        transparent 92%
-      );
 
       > * {
-        min-width: 100%;
+        min-width: calc(75vw);
       }
 
       h1 {
@@ -344,18 +335,6 @@
       law {
         font-size: 0.6rem;
       }
-    }
-  }
-
-  @media (max-width: 400px) {
-    content {
-      mask-image: linear-gradient(
-        to right,
-        transparent 9%,
-        black 9%,
-        black 91%,
-        transparent 91%
-      );
     }
   }
 </style>

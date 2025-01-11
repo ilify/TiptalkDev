@@ -15,6 +15,7 @@
     Info,
     Coins,
   } from "lucide-svelte";
+  import Loader from "./Loader.svelte";
 
   export function getRandomColor(username) {
     let hash = 0;
@@ -30,7 +31,7 @@
   }
   export var { reload } = $props();
   var isAuthShowing = $state(false);
-
+  var Solde = $state(0);
   function logout() {
     fetchBackend("/auth/logout").then((res) => {
       if (res.ok) {
@@ -44,11 +45,14 @@
     if (reload) {
       // pass
     }
-    fetchBackend("/auth/me").then((res) => {
+    fetchBackend("/auth/me", {
+      method: "GET",
+    }).then((res) => {
       if (res.ok) {
         isRegistered = true;
         res.json().then((data) => {
           name = data.Username;
+          Solde = data.Solde;
           Account = data;
         });
       }
@@ -95,6 +99,7 @@
 </script>
 
 <nav>
+  <Loader />
   <div style="display: flex;display: flex;align-items: center;gap: 0px;">
     <ldiv style="margin-right: -20px;margin-top: -10px;margin-left: -10px;">
       <Logo />
@@ -103,9 +108,11 @@
   </div>
   <div style="display: flex;align-items: center;gap: 20px;">
     {#if isRegistered}
-      <div>
-        <a href="/AddHome">Déposer une annonce</a>
-        <solde>{Account.Solde}</solde>
+      <div
+        style="justify-content: end;gap:20px;align-items: center;display: flex;"
+      >
+        <a href="/AddHome" id="post">Déposer une annonce</a>
+        <solde>{Solde}</solde>
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <profile
@@ -139,8 +146,8 @@
           </div>
 
           <a href="/Recharge"><Coins size={18} />Rechargé</a>
-          <a href="/contact"><HeartHandshake size={18} />Contact</a>
-          <a href="/about"><Info size={18} />About</a>
+          <!-- <a href="/contact"><HeartHandshake size={18} />Contact</a> -->
+          <!-- <a href="/about"><Info size={18} />About</a> -->
 
           <a
             href="/"
@@ -161,7 +168,7 @@
     <Lang />
   </div>
 </nav>
-<Auth bind:isAuthShowing bind:isRegistered bind:name />
+<Auth bind:isAuthShowing bind:isRegistered bind:reload />
 
 <style>
   solde {
@@ -270,6 +277,12 @@
   }
 
   @media (max-width: 450px) {
+    info {
+      /* width: 250px; */
+      padding: 20px;
+      top: 80px;
+      right: 20px;
+    }
     nav {
       padding: 0 2%;
     }
@@ -289,6 +302,14 @@
 
     ldiv {
       transform: scale(0.8);
+    }
+
+    #post {
+      display: none;
+    }
+
+    solde {
+      font-size: 12px;
     }
   }
 </style>

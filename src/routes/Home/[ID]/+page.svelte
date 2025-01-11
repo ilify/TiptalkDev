@@ -1,5 +1,6 @@
 <script>
   import Navbar from "../../../components/navbar.svelte";
+  import Loader from "../../../components/loader.svelte";
   import {
     MapPin,
     Bed,
@@ -20,16 +21,23 @@
 
   var pics = $state([]);
   let Data = $state({
+    bedroom: 3,
+    bathroom: 2,
+    surface: 500,
+    price: 1000000,
+    currency: "TND",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, varius nunc. Nulla facilisi. Nullam sit amet semper purus. Sed nec mi nec eros tincidunt ultricies. Nulla facilisi. Nullam sit amet semper purus. Sed nec mi nec eros tincidunt",
     images: ["", "", "", "", ""],
   });
   var lat = $state(0);
   var lng = $state(0);
-  var town = $state("");
-  var street = $state("");
+  var town = $state("7021, Tunisia");
+  var street = $state("Jarzouna Est, Délégation Jarzouna, Bizerte");
   var address = $state("");
   var owner = $state({
-    Username: "e e",
-    Email: "a@b.c",
+    Username: "User Name",
+    Email: "Jhondoe@gmail.com",
   });
   onMount(() => {
     fetchBackend("/house/get/" + page.params.ID)
@@ -62,6 +70,7 @@
 </script>
 
 <main>
+  <Loader />
   <Navbar />
   <galery>
     <main
@@ -73,8 +82,8 @@
       <pic style="background: url({Data.images[2]});background-size:cover;"
       ></pic>
     </div>
-    <div>
-      <pic style="background: url({Data.images[3]});background-size:cover;"
+    <div last>
+      <pic last style="background: url({Data.images[3]});background-size:cover;"
       ></pic>
       <button onclick={viewAllPics}
         ><p>See all photos</p>
@@ -139,7 +148,7 @@
   {#if isPicsVisible}
     <Imagegal pictures={pics} bind:isPicsVisible />
   {/if}
-  <Footer />
+  <!-- <Footer /> -->
 </main>
 
 <style>
@@ -358,6 +367,147 @@
         color: #000000;
         font-family: Versel;
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    main {
+      padding: 1% 2%;
+    }
+
+    galery {
+      padding: 3%;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 700px;
+      gap: 1rem;
+      margin-bottom: 20px;
+
+      main {
+        width: 100%;
+        height: 100%;
+      }
+
+      div {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        width: 100%;
+        height: 50%;
+
+        pic {
+          width: 50%;
+          height: 100%;
+        }
+
+        button {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          padding: 1rem;
+          color: #fff;
+          width: 100%;
+          height: fit-content;
+          background: rgb(0, 0, 0);
+        }
+      }
+    }
+
+    panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 500px;
+
+      width: 100%;
+
+      discription{
+        width: 90vw;
+      }
+    }
+
+    info {
+      display: flex;
+      flex-direction: column;
+      margin: 0 5%;
+      margin-right: 1%;
+      height: 100%;
+      width: 100%;
+
+      h1 {
+        font-size: 2.5rem;
+        font-family: Milk;
+      }
+
+      location {
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        font-weight: 400;
+        color: #00000085;
+        font-family: Figtree;
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      div {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      h2 {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        font-weight: 400;
+        color: #00000085;
+      }
+
+      price {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: baseline;
+
+        h2 {
+          font-size: 2em;
+          font-weight: 400;
+          color: #000000;
+          font-family: Milk;
+        }
+      }
+      state {
+        color: green;
+
+        &::before {
+          content: "";
+          width: 10px;
+        }
+      }
+    }
+    pic[last] {
+      display: none;
+    }
+
+    div[last] {
+      height: fit-content;
+
+      button {
+        background: white;
+        color: #000000;
+        border: 1px solid #00000050;
+      }
+    }
+    button[contact] {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 1;
+      z-index: 50;
+      width: 90%;
     }
   }
 </style>

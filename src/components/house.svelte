@@ -7,7 +7,7 @@
 
   onMount(() => {
     const addressParts = house.address.address.split(",");
-    town = addressParts.slice(3).join(", ");
+    town = addressParts.slice(-3,-1).join(", ");
     street = addressParts.slice(0, -2).join(", ");
   });
 
@@ -168,5 +168,27 @@
         }
       }
     }
+  }
+
+  @media (max-width: 768px) {
+    a {
+      height: 250px;
+      h1 {
+        font-size: 1.5rem;
+      }
+      badges{
+
+        badge{
+          font-size: 0.8rem;
+          padding: 0.1rem 0.5rem;
+        }
+      }
+      op{
+        location {
+          font-size: 1rem;
+        }
+      }
+    }
+
   }
 </style>

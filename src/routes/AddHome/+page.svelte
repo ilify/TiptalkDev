@@ -563,4 +563,47 @@
   images {
     padding-right: 40px;
   }
+
+
+  @media (max-width: 768px) {
+    article {
+      padding: 1% 5%;
+
+      h1{
+        font-size: 1.5rem;
+      }
+    }
+    h2{
+      font-size: 1em !important;
+    }
+    step {
+      flex-direction: column;
+      > * {
+        min-width: 100%;
+      }
+    }
+    images{
+      padding: 0;
+
+      p{
+        font-size: .8em;
+      }
+    }
+
+    info{
+      padding-top: 30px;
+    }
+    info p{
+      font-size: .8em;
+    }
+    div {
+      /* flex-direction: column; */
+      gap: 1rem;
+
+    }
+
+    law {
+      font-size: 0.6rem;
+    }
+}
 </style>

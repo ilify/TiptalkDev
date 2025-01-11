@@ -126,4 +126,10 @@
       align-items: center;
     }
   }
+
+  @media (max-width: 768px) {
+    lang {
+      display: none;
+    }
+  }
 </style>

@@ -8,11 +8,10 @@
         progress += 10;
         if (progress >= 2000) {
           clearInterval(interval);
-          document.querySelector('cover').remove();
+          document.querySelector("cover").remove();
         }
       }, 5);
     }, 1000);
-
   });
 </script>
 
@@ -35,7 +34,7 @@
     left: 0;
     height: 100vh;
     width: 100vw;
-    background: rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
     mask-image: radial-gradient(
       circle var(--progress),
       rgba(255, 255, 255, 0) 50%,
@@ -44,6 +43,11 @@
     z-index: 100000;
   }
   s {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
     animation: spin 1s infinite linear;
   }
 
@@ -54,5 +58,9 @@
     100% {
       rotate: 360deg;
     }
+  }
+
+  @media (max-width: 768px) {
+    
   }
 </style>

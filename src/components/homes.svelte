@@ -5,16 +5,13 @@
   import { LoaderCircle } from "lucide-svelte";
 
   export let Data = [];
+  
 </script>
 
 <div style="position: relative;">
-  <results>
-    <p>Results Found</p>
-    <h1>{Data.length}</h1>
-  </results>
   <main>
     {#if Data.length === 0}
-      <spinner>
+      <spinner loader>
         <LoaderCircle />
       </spinner>
     {/if}
@@ -38,46 +35,16 @@
     }
   }
   main {
-    margin-top: 80px;
+    margin-top: 25px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
     padding: 0% 5%;
   }
-  results {
-    padding: 1% 5%;
-
-    position: absolute;
-    right: 0;
-    top: -50px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: baseline;
-
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      font-family: Milk;
-    }
-
-    p {
-      opacity: 0.5;
-    }
-  }
 
   @media (max-width: 768px) {
     main {
       grid-template-columns: 1fr;
-    }
-
-    results {
-      top: -45px;
-      right: 5px;
-
-      h1{
-        font-size: 1.7rem;
-      }
     }
   }
 </style>

@@ -9,16 +9,19 @@
   import { onMount } from "svelte";
   import { fetchBackend } from "../lib/fetch";
   import Loader from "../components/Loader.svelte";
-
+  import { on } from "svelte/events";
   let AllData = $state([]);
   let FilteredData = $state([]);
-
   onMount(() => {
     fetchBackend("/house/feed")
       .then((res) => res.json())
       .then((data) => {
         AllData = data;
         FilteredData = data;
+
+        if (data.length == 0) {
+          document.querySelector("spinner[loader]").remove();
+        }
       });
   });
 </script>

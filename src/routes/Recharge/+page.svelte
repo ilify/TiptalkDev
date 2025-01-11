@@ -3,6 +3,7 @@
   import Navbar from "../../components/navbar.svelte";
   import { Check } from "lucide-svelte";
   import { fetchBackend } from "$lib/fetch";
+  import Footer from "../../components/footer.svelte";
   let ref = $state("");
   let isPaying = $state(false);
   let Data = $state({});
@@ -140,6 +141,8 @@
       </panel>
     </pricingCards>
   </div>
+  <Footer />
+  <br>
 </main>
 
 <style>
@@ -324,6 +327,19 @@
     }
     100% {
       transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 768px) {
+    pricingCards {
+      flex-direction: column;
+      gap: 1rem;
+      padding-bottom: 7%;
+
+      panel {
+        width: 100%;
+        padding: 7%;
+      }
     }
   }
 </style>

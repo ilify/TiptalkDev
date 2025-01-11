@@ -10,7 +10,7 @@
     FlameKindling,
     Mail,
   } from "lucide-svelte";
-  import Loader from "../../../components/loader.svelte";
+  // import Loader from "../../../components/loader.svelte";
   import Map from "../../../components/map.svelte";
   import Footer from "../../../components/footer.svelte";
   import Profile from "../../../components/Profile.svelte";
@@ -70,7 +70,7 @@
 </script>
 
 <main>
-  <Loader />
+  <!-- <Loader /> -->
   <Navbar />
   <galery>
     <main

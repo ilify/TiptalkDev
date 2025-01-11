@@ -6,7 +6,7 @@
   import Homes from "../components/homes.svelte";
   import Footer from "../components/footer.svelte";
   import Auth from "../components/auth.svelte";
-  import Loader from "../components/loader.svelte";
+  // import Loader from "../components/loader.svelte";
   import { onMount } from "svelte";
   import { fetchBackend } from "../lib/fetch";
   import { on } from "svelte/events";
@@ -27,7 +27,7 @@
 </script>
 
 <main>
-  <Loader />
+  <!-- <Loader /> -->
   <Navbar />
   <Banner />
   <Filter bind:All={AllData} bind:Filtered={FilteredData} />

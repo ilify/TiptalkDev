@@ -6,9 +6,9 @@
   import Homes from "../components/homes.svelte";
   import Footer from "../components/footer.svelte";
   import Auth from "../components/auth.svelte";
+  import Loader from "../components/loader.svelte";
   import { onMount } from "svelte";
   import { fetchBackend } from "../lib/fetch";
-  import Loader from "../components/loader.svelte";
   import { on } from "svelte/events";
   let AllData = $state([]);
   let FilteredData = $state([]);

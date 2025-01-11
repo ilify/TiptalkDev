@@ -15,7 +15,7 @@
     Info,
     Coins,
   } from "lucide-svelte";
-  import Loader from "./Loader.svelte";
+  import Loader from "./loader.svelte";
 
   export function getRandomColor(username) {
     let hash = 0;

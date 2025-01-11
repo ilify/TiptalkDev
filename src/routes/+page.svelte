@@ -8,7 +8,7 @@
   import Auth from "../components/auth.svelte";
   import { onMount } from "svelte";
   import { fetchBackend } from "../lib/fetch";
-  import Loader from "../components/Loader.svelte";
+  import Loader from "../components/loader.svelte";
   import { on } from "svelte/events";
   let AllData = $state([]);
   let FilteredData = $state([]);

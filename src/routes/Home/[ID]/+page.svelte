@@ -422,7 +422,7 @@
 
       width: 100%;
 
-      discription{
+      discription {
         width: 90vw;
       }
     }

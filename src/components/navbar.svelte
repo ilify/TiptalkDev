@@ -15,7 +15,7 @@
     Info,
     Coins,
   } from "lucide-svelte";
-  import Loader from "./loader.svelte";
+  // import Loader from "./loader.svelte";
 
   export function getRandomColor(username) {
     let hash = 0;
@@ -99,7 +99,7 @@
 </script>
 
 <nav>
-  <Loader />
+  <!-- <Loader /> -->
   <div style="display: flex;display: flex;align-items: center;gap: 0px;">
     <ldiv style="margin-right: -20px;margin-top: -10px;margin-left: -10px;">
       <Logo />

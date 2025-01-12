@@ -341,7 +341,11 @@
               onclick={() => (isvalid = false)}>Annuler</button
             >
             <button style="border:3px solid #000;" onclick={Send}
-              >Confirmer</button
+              >{#if loading}
+                <LoaderCircle />
+              {:else}
+                Continuer
+              {/if}</button
             >
           </dop>
         {/if}
@@ -564,16 +568,15 @@
     padding-right: 40px;
   }
 
-
   @media (max-width: 768px) {
     article {
       padding: 1% 5%;
 
-      h1{
+      h1 {
         font-size: 1.5rem;
       }
     }
-    h2{
+    h2 {
       font-size: 1em !important;
     }
     step {
@@ -582,28 +585,27 @@
         min-width: 100%;
       }
     }
-    images{
+    images {
       padding: 0;
 
-      p{
-        font-size: .8em;
+      p {
+        font-size: 0.8em;
       }
     }
 
-    info{
+    info {
       padding-top: 30px;
     }
-    info p{
-      font-size: .8em;
+    info p {
+      font-size: 0.8em;
     }
     div {
       /* flex-direction: column; */
       gap: 1rem;
-
     }
 
     law {
       font-size: 0.6rem;
     }
-}
+  }
 </style>

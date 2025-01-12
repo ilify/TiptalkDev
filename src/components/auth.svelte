@@ -93,12 +93,12 @@
       <welcome>
         <h1>Bienvenue sur TipTalk !</h1>
         <p>Choisissez une option pour continuer</p>
-        <button main
+        <!-- <button main
           ><img
             src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
             alt="google"
           /> Continuer avec Google</button
-        >
+        > -->
         <button onclick={toSignup}>Continuer avec Email</button>
         <po>OU</po>
         <button onclick={toLogin}>Se connecter à votre compte</button>

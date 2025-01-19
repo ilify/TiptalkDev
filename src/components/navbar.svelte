@@ -4,6 +4,7 @@
   import Lang from "./lang.svelte";
   import Logo from "./logo.svelte";
   import { LoaderCircle } from "lucide-svelte";
+  import { onMount } from "svelte";
 
   let isRegistered = $state(false);
   let name = $state("Empty");
@@ -96,12 +97,30 @@
 
     window.requestAnimationFrame(step);
   }
+
+  let topValue = $state(470);
+
+  function handleScroll() {
+    const scrollTop = window.scrollY;
+    topValue = Math.max(0, 470 - scrollTop);
+  }
+
+  onMount(() => {
+    window.addEventListener("scroll", handleScroll);
+  });
 </script>
 
-<nav>
+<br />
+<Loadingscreen />
+<nav
+  style="border-bottom: 1px solid rgba(0, 0, 0, {topValue == 0
+    ? '0.1'
+    : '0'}); box-shadow: 0 4px 6px rgba(0, 0, 0,{topValue == 0
+    ? '0.02'
+    : '0'});"
+>
   <!-- <Loader /> -->
-  <Loadingscreen />
-  <div style="display: flex;display: flex;align-items: center;gap: 0px;">
+  <div style="display: flex;display: flex;align-items: center;gap: 0px;margin-top: 10px;">
     <ldiv style="margin-right: -20px;margin-top: -10px;margin-left: -10px;">
       <Logo />
     </ldiv>
@@ -204,7 +223,7 @@
     a {
       display: flex;
       align-items: center;
-
+      font-family: Figtree;
       width: fit-content;
       background: none;
       color: black;
@@ -212,7 +231,7 @@
       height: 30px;
       opacity: 0.7;
       padding: 0;
-      font-family: figtree;
+
       transition: transform 0.3s ease;
       &:hover {
         transform: translate(5px, -3px);
@@ -235,7 +254,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 5%;
-    height: 60px;
+    height: 100px;
+    position: fixed;
+    /* top: 20px; */
+    background: white;
+    left: 0;
+    width: 100%;
+    z-index: 99;
   }
 
   div {
@@ -248,7 +273,7 @@
     text-decoration: none;
     color: black;
     transform: translateY(-3px);
-    font-family: "Poppins", sans-serif;
+    font-family: figtree;
     font-weight: 500;
     font-size: 15px;
   }

@@ -3,6 +3,8 @@
   import Input from "./input.svelte";
   import Logo from "./logo.svelte";
   import { LoaderCircle } from "lucide-svelte";
+  import InputText from "./Inputs/InputText.svelte";
+  import InputPhone from "./Inputs/InputPhone.svelte";
 
   export var {
     isAuthShowing = $bindable(),
@@ -89,71 +91,90 @@
 >
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <panel onclick={(e) => e.stopPropagation()}>
-    <content style="--pos: {pos}">
-      <welcome>
-        <h1>Bienvenue sur TipTalk !</h1>
-        <p>Choisissez une option pour continuer</p>
-        <!-- <button main
+    <bg></bg>
+    <div
+      style="width: 100%;display:flex;justify-content:center;align-items:center;"
+    >
+      <content style="--pos: {pos}">
+        <welcome>
+          <h1>Bienvenue sur TipTalk !</h1>
+          <p>Choisissez une option pour continuer</p>
+          <!-- <button main
           ><img
             src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
             alt="google"
           /> Continuer avec Google</button
         > -->
-        <button onclick={toSignup}>Continuer avec Email</button>
-        <po>OU</po>
-        <button onclick={toLogin}>Se connecter à votre compte</button>
-        <law
-          >En choisissant une méthode de connexion, je confirme avoir lu et
-          compris la <a href="/">Politique de confidentialité</a> ainsi que les
-          <a href="/">Conditions d'utilisation</a></law
-        >
-      </welcome>
-      <inputs>
-        <back onclick={back}>← Back</back>
-        <h1>{uiData[isLogin ? 0 : 1].h1}</h1>
-        <p>{uiData[isLogin ? 0 : 1].p}</p>
-        <Input
-          name=""
-          placeholder="Email"
-          type="email"
-          bind:value={Data.email}
-        />
-        <div
-          style="display: {uiData[isLogin ? 0 : 1].username ? 'block' : 'none'}"
-        >
-          <Input
+          <button onclick={toSignup}>Continuer avec Email</button>
+          <po>OU</po>
+          <button onclick={toLogin}>Se connecter à votre compte</button>
+          <law
+            >En choisissant une méthode de connexion, je confirme avoir lu et
+            compris la <a href="/">Politique de confidentialité</a> ainsi que
+            les
+            <a href="/">Conditions d'utilisation</a></law
+          >
+        </welcome>
+        <inputs>
+          <back onclick={back}>← Back</back>
+          <h1>{uiData[isLogin ? 0 : 1].h1}</h1>
+          <p>{uiData[isLogin ? 0 : 1].p}</p>
+          <InputText
             name=""
-            placeholder="Nom d'utilisateur"
-            type="username"
-            bind:value={Data.username}
+            placeholder="Email"
+            type="email"
+            bind:value={Data.email}
           />
-        </div>
-        <Input
-          name=""
-          placeholder="Mot de passe"
-          type="password"
-          bind:value={Data.password}
-        />
+          <div
+            style="display: {uiData[isLogin ? 0 : 1].username
+              ? 'flex'
+              : 'none'};flex-direction: column;gap: 10px;"
+          >
+            <InputText
+              name=""
+              placeholder="Nom d'utilisateur"
+              type="username"
+              bind:value={Data.username}
+            />
+            <InputPhone name="" placeholder="Téléphone" />
+          </div>
+          <InputText
+            name=""
+            placeholder="Mot de passe"
+            type="password"
+            passwordStrength={!isLogin}
+            bind:value={Data.password}
+          />
 
-        <button style="margin-top: 10px;" onclick={submit}>
-          {#if !LoginFetching}
-            {uiData[isLogin ? 0 : 1].button}
-          {:else}
-            <s>
-              <LoaderCircle />
-            </s>
-          {/if}
-        </button>
-        <law>
-          By clicking Sign Up, you agree to our <a href="/">Terms of Service</a>
-          and <a href="/">Privacy Policy</a>
-        </law>
-      </inputs>
-    </content>
+          <button style="margin-top: 10px;" onclick={submit}>
+            {#if !LoginFetching}
+              {uiData[isLogin ? 0 : 1].button}
+            {:else}
+              <s>
+                <LoaderCircle />
+              </s>
+            {/if}
+          </button>
+          <law>
+            By clicking Sign Up, you agree to our <a href="/"
+              >Terms of Service</a
+            >
+            and <a href="/">Privacy Policy</a>
+          </law>
+        </inputs>
+      </content>
+    </div>
   </panel>
 </main>
 
 <style>
+  bg {
+    background: url(/assets/images/pexels-slendyalex-3648850.jpg);
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
   main {
     position: fixed;
     top: 0;
@@ -165,7 +186,7 @@
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
-    z-index: 100;
+    z-index: 1000000;
     transition: 0.3s all;
   }
 
@@ -175,11 +196,12 @@
     background-color: #fff;
     border-radius: 10px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    /* justify-content: center; */
     align-items: center;
     gap: 1rem;
     transition: 0.2s all;
+    overflow: hidden;
   }
 
   content {
@@ -228,7 +250,7 @@
   }
   button {
     width: 100%;
-    height: 40px;
+    min-height: 40px;
     background-color: #000000;
     color: #fff;
     border: none;
@@ -240,18 +262,6 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-
-    img {
-      width: 16px;
-      height: 16px;
-      /* margin-right: 10px; */
-    }
-
-    &[main] {
-      background: none;
-      border: 2px solid #000000;
-      color: #000000;
-    }
   }
 
   law {
@@ -299,10 +309,18 @@
       transform: rotate(360deg);
     }
   }
+  @media (max-width: 1600px) {
+    bg {
+      display: none;
+    }
+    content {
+      /* width: 100%; */
+    }
+  }
   @media (max-width: 768px) {
     panel {
       width: calc(100% - 20px);
-      height: 50vh;
+      height: 60vh;
       padding: 20px;
       box-sizing: border-box;
     }

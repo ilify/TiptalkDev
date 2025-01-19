@@ -30,7 +30,7 @@
   <!-- <Loader /> -->
   <Navbar />
   <Banner />
-  <Filter bind:All={AllData} bind:Filtered={FilteredData} />
+  <!-- <Filter bind:All={AllData} bind:Filtered={FilteredData} /> -->
   <Homes Data={FilteredData} />
   <Footer />
 </main>
@@ -39,6 +39,6 @@
   main {
     display: flex;
     flex-direction: column;
-    padding: 1% 2%;
+    padding: 0% 2%;
   }
 </style>

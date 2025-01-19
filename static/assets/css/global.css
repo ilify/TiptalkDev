@@ -21,8 +21,9 @@ body {
   width: 100vw;
   font-family: "Roboto", sans-serif;
   overflow-x: hidden;
-  top: 0 !important;
+  /* top: 0 !important; */
   /* position: fixed; */
+
 }
 
 button {

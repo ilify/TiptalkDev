@@ -31,6 +31,7 @@
     align-items: center;
     justify-content: center;
     top: 0;
+    z-index: 1000000;
     left: 0;
     height: 100vh;
     width: 100vw;
@@ -40,7 +41,6 @@
       rgba(255, 255, 255, 0) 50%,
       rgb(255, 255, 255) 100%
     );
-    z-index: 100000;
   }
   s {
     display: flex;

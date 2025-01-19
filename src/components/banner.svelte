@@ -288,7 +288,7 @@
         <div class="price-header">
           <div>
             <h2>Price Range</h2>
-            <p>Nightly prices before fees and taxes</p>
+            <p>Set your desired price range</p>
           </div>
           <price>
             <div>

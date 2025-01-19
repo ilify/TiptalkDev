@@ -8,6 +8,7 @@
 
   let isRegistered = $state(false);
   let name = $state("Empty");
+  export var { isStatic = true, reload } = $props();
   let Account = $state({});
   import {
     MessageCircle,
@@ -30,7 +31,6 @@
 
     return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
   }
-  export var { reload } = $props();
   var isAuthShowing = $state(false);
   var Solde = $state(0);
   function logout() {
@@ -109,10 +109,13 @@
     window.addEventListener("scroll", handleScroll);
   });
 </script>
-
-<br />
+{#if isStatic}
+  <!-- <div style="height: 100px;"></div> -->
+  <br />
+{/if}
 <Loadingscreen />
 <nav
+  class={!isStatic ? "notstatic" : ""}
   style="border-bottom: 1px solid rgba(0, 0, 0, {topValue == 0
     ? '0.1'
     : '0'}); box-shadow: 0 4px 6px rgba(0, 0, 0,{topValue == 0
@@ -120,7 +123,9 @@
     : '0'});"
 >
   <!-- <Loader /> -->
-  <div style="display: flex;display: flex;align-items: center;gap: 0px;margin-top: 10px;">
+  <div
+    style="display: flex;display: flex;align-items: center;gap: 0px;margin-top: 10px;"
+  >
     <ldiv style="margin-right: -20px;margin-top: -10px;margin-left: -10px;">
       <Logo />
     </ldiv>
@@ -191,6 +196,10 @@
 <Auth bind:isAuthShowing bind:isRegistered bind:reload />
 
 <style>
+  .notstatic {
+    position: relative;
+    top: 0;
+  }
   solde {
     background: #e4e4e4;
     padding: 5px 20px;
@@ -256,7 +265,7 @@
     padding: 0 5%;
     height: 100px;
     position: fixed;
-    /* top: 20px; */
+    top: 0px;
     background: white;
     left: 0;
     width: 100%;
@@ -311,6 +320,10 @@
     }
     nav {
       padding: 0 2%;
+      /* padding-top: 20px; */
+      height: 50px;
+      position: relative;
+      top: 0 !important;
     }
 
     div {

@@ -145,7 +145,7 @@
 </script>
 
 <main>
-  <Navbar reload={isvalid} />
+  <Navbar reload={isvalid} isStatic={false}/>
 
   <article>
     <h1>Déposer une annonce</h1>

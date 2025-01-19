@@ -1,52 +1,17 @@
 <script>
-  import {
-    Search,
-    Map,
-    Bed,
-    Bath,
-    Car,
-    Cctv,
-    Sofa,
-    WavesLadder,
-  } from "lucide-svelte";
+  import { Search } from "lucide-svelte";
   import { onMount, onDestroy } from "svelte";
   import { Slider } from "$lib/components/ui/slider";
   import { countries, Maincountries } from "$lib/Countries/data.js";
-  import Inputints from "$components/inputints.svelte";
-  export var { All = $bindable(), Filtered = $bindable() } = $props();
+  import Inputint from "$components/inputint.svelte";
   // Use reactive statements instead of $state
   let topValue = $state(470);
-  let PriceRange = $state([0, 1500000]);
+  let PriceRange = $state([0, 1000000]);
   let SurfaceRange = $state([0, 1500]);
   let toolsFolded = $state(true);
   let toolsStep = $state(0);
   let Dist = $state([]);
   let roomnbr = $state(0);
-  let bathnbr = $state(0);
-  let yearnbr = $state(2010);
-  let SelectedCountries = $state([]);
-  let options = $state([
-    {
-      value: false,
-      icon: Sofa,
-      title: "Furnished",
-    },
-    {
-      value: false,
-      icon: WavesLadder,
-      title: "Swimming Pool",
-    },
-    {
-      value: false,
-      icon: Cctv,
-      title: "Camera",
-    },
-    {
-      value: false,
-      icon: Car,
-      title: "Garage",
-    },
-  ]);
 
   // Debounce scroll handler to reduce calculations
   let scrollTimeout;
@@ -121,22 +86,10 @@
   }
   let searchinput = $state("");
   let FilteredCountries = $state(Maincountries);
-
+  let SelectedCountries = $state([]);
   $effect(() => {
     SearchCountries(searchinput);
-    const Filters = {
-      PriceRange,
-      SurfaceRange,
-      SelectedCountries,
-      roomnbr,
-      bathnbr,
-      yearnbr,
-      options,
-    };
-    console.log(Filters);
-    FilterData(Filters);
   });
-
   function SearchCountries(input) {
     if (input === "") return;
     const result = Object.keys(countries).reduce((acc, key) => {
@@ -147,61 +100,6 @@
     }, {});
 
     FilteredCountries = result;
-  }
-  function FilterData(filters) {
-    let filtered = All.filter((item) => {
-      let priceFilter =
-        item.price >= filters.PriceRange[0] &&
-        item.price <= filters.PriceRange[1];
-
-      let surfaceFilter =
-        item.surface >= filters.SurfaceRange[0] &&
-        item.surface <= filters.SurfaceRange[1];
-
-      let roomnbrFilter =
-        filters.roomnbr === 0 || item.bedroom >= filters.roomnbr;
-      let bathnbrFilter =
-        filters.bathnbr === 0 || item.bathroom >= filters.bathnbr;
-      let yearnbrFilter =
-        filters.yearnbr === 1900 || item.year >= filters.yearnbr;
-      const country = item.address.address.split(",").pop().trim();
-      const code = Object.keys(countries).find(
-        (key) => countries[key] === country
-      );
-      const cameraFilter = filters.options[2].value
-        ? item.camera === filters.options[2].value
-        : true;
-
-      const garageFilter = filters.options[3].value
-        ? item.garage === filters.options[3].value
-        : true;
-
-      const poolFilter = filters.options[1].value
-        ? item.pool === filters.options[1].value
-        : true;
-
-      const furnishedFilter = filters.options[0].value
-        ? item.furnished === filters.options[0].value
-        : true;
-
-      const countryFilter =
-        filters.SelectedCountries.length === 0 ||
-        Object.values(filters.SelectedCountries).includes(code);
-
-      return (
-        priceFilter &&
-        surfaceFilter &&
-        roomnbrFilter &&
-        bathnbrFilter &&
-        yearnbrFilter &&
-        countryFilter &&
-        cameraFilter &&
-        garageFilter &&
-        poolFilter &&
-        furnishedFilter
-      );
-    });
-    Filtered = filtered;
   }
   onDestroy(cleanup);
 </script>
@@ -247,7 +145,7 @@
             <h2>Choose Your Country</h2>
             <p>Select the country where you want to find properties</p>
           </div>
-          <price class="coutrysearch">
+          <price>
             <input
               type="text"
               placeholder="Search for a country"
@@ -305,7 +203,7 @@
         <slider>
           <dist>
             {#each Dist as value, i}
-              {@const price = i * (1500000 / 50)}
+              {@const price = i * (1000000 / 50)}
               {@const isInRange =
                 PriceRange[0] <= price && price <= PriceRange[1]}
               <!-- svelte-ignore element_invalid_self_closing_tag -->
@@ -318,7 +216,7 @@
               />
             {/each}
           </dist>
-          <Slider bind:value={PriceRange} min={0} max={1500000} step={1000} />
+          <Slider bind:value={PriceRange} min={0} max={1000000} step={1000} />
         </slider>
       </prices>
       <surfaces
@@ -375,60 +273,15 @@
           </div>
         </price> -->
         </div>
-        <div style="display: flex;gap: 30px;">
-          <div
-            style="margin-top: 30px;width: 110%;display: flex;flex-direction: column;gap: 20px;"
-          >
-            <div style="display: flex;align-items: center;width: 100%;">
-              <p
-                style="width: fit-content;text-align: start;white-space:nowrap"
-              >
-                Nombre de chambres
-              </p>
-              <Inputints bind:count={roomnbr} plus={true} />
-            </div>
-            <div style="display: flex;align-items: center;width: 100%;">
-              <p
-                style="width: fit-content;text-align: start;white-space:nowrap"
-              >
-                Nombre de salle bain
-              </p>
-              <Inputints bind:count={bathnbr} plus={true} />
-            </div>
-            <div style="display: flex;align-items: center;width: 100%;">
-              <p
-                style="width: fit-content;text-align: start;white-space:nowrap"
-              >
-                Année de constcuction
-              </p>
-              <Inputints
-                bind:count={yearnbr}
-                min={1900}
-                max={2025}
-                plus={true}
-              />
-            </div>
+        <div style="margin-top: 10px;width: 50%;display: flex;flex-direction: column;gap: 10px;">
+          <div style="display: flex;allign-items: center;width: 100%;">
+            <p style="width: 100%;text-align: start;">Nombre de chambres</p>
+            <Inputint bind:count={roomnbr} />
           </div>
-          <dive
-            style="margin-top: 30px;width: 100%;display: flex;flex-direction:row;flex-wrap: wrap;gap: 10px;height: fit-content;"
-          >
-            {#each options as option}
-              <!-- svelte-ignore a11y_click_events_have_key_events -->
-              <!-- svelte-ignore a11y_no_static_element_interactions -->
-              <!-- svelte-ignore svelte_component_deprecated -->
-              <divr
-                class="optionbtn {option.value ? 'optionSelected' : ''}"
-                onclick={() => {
-                  option.value = !option.value;
-                }}
-              >
-                <svelte:component this={option.icon} size={20} />
-                <pe style="width: fit-content;text-align: start;"
-                  >{option.title}</pe
-                >
-              </divr>
-            {/each}
-          </dive>
+          <div style="display: flex;allign-items: center;width: 100%;">
+            <p style="width: 100%;text-align: start;">Nombre de chambres</p>
+            <Inputint bind:count={roomnbr} />
+          </div>
         </div>
       </options>
     </filters>
@@ -436,28 +289,6 @@
 </main>
 
 <style>
-  .optionSelected {
-    background: #000000 !important;
-    color: #ffffff !important;
-    opacity: 1 !important;
-  }
-  .optionbtn {
-    transition: 0.2s ease all;
-    opacity: 0.5;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    width: fit-content;
-    align-items: center;
-    width: fit-content;
-    height: fit-content;
-    gap: 10px;
-    border: 1px solid #00000020;
-    background: rgb(255, 255, 255);
-    padding: 5px 15px;
-    margin: 0;
-    border-radius: 100px;
-  }
   .countrybtnSelected {
     border: 1px solid #0000008d !important;
   }
@@ -836,103 +667,7 @@
       font-size: 0.6rem;
     }
     searchbar {
-      position: relative;
-      top: 0 !important;
-      width: 85vw !important;
-      min-width: 0px !important;
-      height: 140px;
-      border-radius: 20px;
       padding: 0.4em;
-
-      .countrybtn {
-        width: calc((100% - 10px) / 2);
-        max-width: calc((100% - 10px) / 2);
-      }
-      .search-container {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        buttonf {
-          width: 46%;
-        }
-        buttonf:nth-child(2) {
-          border-right: none;
-        }
-      }
-      filters {
-        /* background: red; */
-        padding-top: 100px;
-        height: 370px;
-        > * {
-          justify-content: space-between;
-        }
-
-        surface-range,
-        price {
-          width: 65%;
-          height: 50px;
-          > input {
-            font-size: 0.6rem;
-            /* &::placeholder{
-              background: linear-gradient(to right,rgb(0, 0, 0),rgba(58, 58, 62, 0));
-              color: transparent;
-              background-clip: text;
-            } */
-          }
-        }
-        .coutrysearch {
-          width: 50% !important;
-        }
-        options {
-          overflow-y: scroll;
-          .optionbtn {
-            font-size: 0.9em;
-          }
-          dive {
-            margin-top: 0 !important;
-          }
-          p {
-            overflow: visible;
-          }
-          div:nth-child(2) {
-            flex-direction: column;
-            div {
-              width: 100% !important;
-              div {
-                overflow: hidden;
-                /* background: red; */
-                flex-direction: row !important;
-                p {
-                  overflow: visible;
-                }
-              }
-            }
-          }
-        }
-        slider {
-          /* height: 100%; */
-          padding: 0;
-          /* transform: scaleY(.5); */
-        }
-        .price-header > div {
-          width: 30%;
-        }
-        h2 {
-          font-size: 0.9rem;
-          white-space: nowrap;
-          width: fit-content;
-        }
-        p {
-          font-size: 0.8rem;
-          width: fit-content;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 100%;
-        }
-      }
-      button {
-        display: none;
-      }
       input {
         font-size: 0.8rem;
       }

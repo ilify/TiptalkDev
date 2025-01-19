@@ -71,7 +71,7 @@
 
 <main>
   <!-- <Loader /> -->
-  <Navbar />
+  <Navbar isStatic={false}/>
   <galery>
     <main
       style="background: url({Data.images[0]});background-size:cover;"

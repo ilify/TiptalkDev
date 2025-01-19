@@ -67,7 +67,7 @@
 </script>
 
 <main>
-  <Navbar reload={ref} />
+  <Navbar reload={ref} isStatic={false} />
   <div>
     <a href="/">← Retour</a>
     <br />

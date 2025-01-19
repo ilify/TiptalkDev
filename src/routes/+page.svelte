@@ -27,10 +27,8 @@
 </script>
 
 <main>
-  <!-- <Loader /> -->
   <Navbar />
-  <Banner />
-  <!-- <Filter bind:All={AllData} bind:Filtered={FilteredData} /> -->
+  <Banner bind:All={AllData} bind:Filtered={FilteredData} />
   <Homes Data={FilteredData} />
   <Footer />
 </main>

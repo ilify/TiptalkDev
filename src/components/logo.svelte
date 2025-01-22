@@ -9,7 +9,7 @@
     margin-right: 20px;
   }
   img {
-    height: 60px;
+    height: 30px;
   }
   @media (max-width: 768px) {
     div {

@@ -124,9 +124,9 @@
 >
   <!-- <Loader /> -->
   <div
-    style="display: flex;display: flex;align-items: center;gap: 0px;margin-top: 10px;"
+    style="display: flex;display: flex;align-items: center;gap: 0px;margin-top: 10px;margin-left:20px"
   >
-    <ldiv style="margin-right: -20px;margin-top: -10px;margin-left: -10px;">
+    <ldiv style="margin-right: 0px;margin-top: 0px;margin-left: -10px;">
       <Logo />
     </ldiv>
     <a href="/">Annonces</a>

@@ -1,5 +1,5 @@
 <div>
-  <img src="/assets/images/logo2.png" alt="" />
+  <img src="/assets/images/logo3.jpg" alt="" />
 </div>
 
 <style>
@@ -9,7 +9,7 @@
     margin-right: 20px;
   }
   img {
-    height: 30px;
+    height: 50px;
   }
   @media (max-width: 768px) {
     div {
